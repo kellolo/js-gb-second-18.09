@@ -3,7 +3,7 @@ body{
 }
 header{
     display: flex;
-    background-color: #2f2a2d;
+    background-color: #58000f;
     justify-content: space-between;
     color: #fafafa;
     padding: 30px 80px;
@@ -12,7 +12,6 @@ button:focus{
     outline: none;
 }
 .logo{
-
     text-transform: uppercase;
     font-weight: bold;
 }
@@ -20,7 +19,7 @@ button:focus{
     background-color: #fafafa;
     padding: 10px 20px;
     border: 1px solid transparent;
-    color: #2f2a2d;
+    color: #58000f;
     border-radius: 5px;
     transition: all ease-in-out .4s;
     cursor: pointer;
@@ -46,6 +45,7 @@ button:focus{
     grid-template-rows: 1fr;
     padding: 40px 80px;
     justify-content: space-between;
+    background-color: #006eff;
 }
 p {
     margin: 0 0 5px 0;
@@ -64,6 +64,7 @@ img {
 }
 .desc {
     border: 1px solid #c0c0c040;
+    background-color: #e5ff00;
     padding: 15px
 }
 .cart{
@@ -76,7 +77,7 @@ img {
     right: 0;
     top: 130%;
     position: absolute;
-    background-color: white;
+    background-color: #e5ff00;
     padding: 20px;
     color: black;
     width: 300px;
@@ -99,18 +100,18 @@ img {
 
 .buy-btn, .del-btn{
     margin-top: 5px;
-    background-color: #2f2a2d;
+    background-color: #58000f;
     padding: 5px 15px;
     border: 1px solid transparent;
     color: #fafafa;
-    border-radius: 5px;
+    border-radius: 15px;
     transition: all ease-in-out .4s;
     cursor: pointer;
 }
 .buy-btn:hover, .del-btn:hover{
     background-color: #fafafa;
-    color: #2f2a2d;
-    border: 1px solid #2f2a2d;
+    color: #58000f;
+    border: 1px solid #58000f;
 }
 .cart-item {
     display: flex;
@@ -127,7 +128,7 @@ img {
     margin-right: 15px;
 }
 .product-single-price{
-    color: #474747;
+    color: #4d3838;
     font-size: 0.5em;
 }
 .product-price{
@@ -146,7 +147,7 @@ img {
 .btn-search {
     background-color: transparent;
     border: none;
-    color: #fafafa;
+    color: #e5ff00;
     font-size: 1.2em;
     position: absolute;
     bottom: 5px;
