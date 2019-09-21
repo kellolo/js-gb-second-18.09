@@ -37,7 +37,7 @@ function fetchData () {
 };
 
 //создание товара
-function createProduct (i) {
+function createProduct (i=0) {
     return {
         id: ids[i],
         name: items[i],
@@ -59,7 +59,7 @@ function createProduct (i) {
                     </div>`
         },
 
-        add: function() {
+        add: () => {
             this.quantity++
         }
     }
