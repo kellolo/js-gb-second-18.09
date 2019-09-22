@@ -37,7 +37,7 @@ function fetchData () {
 };
 
 //создание товара
-function createProduct (i=0) {
+function createProduct (i = 0) {
     return {
         id: ids[i],
         name: items[i],
@@ -67,6 +67,7 @@ function createProduct (i=0) {
 
 //рендер списка товаров (каталога)
 function renderProducts () {
+    debugger;
     let arr = [];
     for (item of list) {
         arr.push(item.createTemplate())

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Интернет-магазин</title>
+    <link rel="stylesheet" href="style/normalize.css">
+    <link rel="stylesheet" href="style/style.css">
+</head>
+<body>
+    <script>
+        class Human{
+            constructor(age,name, married) {
+                this.name = name
+                this.age = age
+                this.married = married
+            }
+            getolder (){
+                this.age++
+            }
+            goMarried(){
+                this.married ? console.log(`${this.name} already married`) : this.married=true
+            }
+
+        }
+        let john = new Human(28,'John',false);
+        let ann = new Human(19,'Annette',false);
+    </script>
+</body>
+</html>
