@@ -5,9 +5,8 @@ const goods = [
   { title: "Shoes", price: 250 }
 ];
 
-const renderGoodsItem = (title = "Заголовок товара", price = 0) => {
-  return `<div class="goods-item"><h3>${title}</h3><p>Цена: ${price} $</p></div>`;
-};
+const renderGoodsItem = (title = "Заголовок товара", price = 0) =>
+  `<div class="goods-item"><h3>${title}</h3><p>Цена: ${price} $</p></div>`;
 
 const renderGoodsList = list => {
   let goodsList = list.map(item => renderGoodsItem(item.title, item.price));
