@@ -2,12 +2,30 @@ body {
   margin: 0px;
   padding: 0px;
 }
+@-webkit-keyframes manifestation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes manifestation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 .block {
   margin: 0 auto;
   padding: 20px;
   width: 768px;
   min-height: 150px;
-  border: 1px solid #000;
+  /*border: 1px solid #000;*/
+  -webkit-animation: manifestation 1s;
+          animation: manifestation 1s;
 }
 span,
 button {
@@ -44,4 +62,15 @@ button:active {
   -webkit-box-shadow: none;
           box-shadow: none;
   background-color: #ff9200;
+}
+.screen_result {
+  font-size: 18px;
+  font-weight: 700;
+}
+.result {
+  -webkit-animation: manifestation 3s;
+          animation: manifestation 3s;
+}
+.screen_off {
+  display: none;
 }

@@ -1,13 +1,23 @@
+
 body {
     margin: 0px;
     padding: 0px;
 }
+@keyframes manifestation {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 .block {
     margin: 0 auto;
     padding: 20px;
     width: 768px;
     min-height: 150px;
-    border: 1px solid #000;
+    /*border: 1px solid #000;*/
+    animation: manifestation 1s;
 }
 span, button {
     display: block;
@@ -40,4 +50,14 @@ button:active {
 .btn_on {
     box-shadow: none;
     background-color: #ff9200;
+}
+.screen_result {
+    font-size: 18px;
+    font-weight: 700;
+}
+.result {
+    animation: manifestation 3s;
+}
+.screen_off {
+    display: none;
 }
