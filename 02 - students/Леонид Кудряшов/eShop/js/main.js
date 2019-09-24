@@ -78,13 +78,27 @@ list.render ()
 
 
 class cartItem {
-    constructor () {
-       
-    }
+   constructor (product) {
+       this.id = product.id
+       this.title = product.name
+
+   }
 }
 
+//корзина товаров
 class Cart {
-    
+    constructor () {
+        this.ids = [] //номера выбранных продуктов
+        this.items = [] // наименования выбранных продуктов
+        this.cost = 0 // общая стоимость выбранных продуктов
+     }
+     // добавление продукта в корзину
+     addCart (product) {
+         this.ids.push(product.id)
+         this.items.push(product.name)
+         this.cost += product.price 
+     }
+     
 }
 // //глобальные сущности корзины и каталога (ИМИТАЦИЯ! НЕЛЬЗЯ ТАК ДЕЛАТЬ!)
 // var userCart = [];
