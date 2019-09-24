@@ -8,11 +8,10 @@ const goods = [
 
 //добавилены значения аргументам поумолчанию
 const renderGoodsItem = (title, price, miniImg) => {
-    if (miniImg===undefined) {miniImg='http://ozmatrix.ru/sites/default/files/inline-images/404.png';}
-    if (title===undefined) {title='Извините';}
-    if (price===undefined) {price='Товар не&nbsp;найден';}
+    if (title===undefined) {title='Товар не&nbsp;найден';}
+    if (price===undefined) {price='0';}
 
-    return '<div class="goods-item"><img src="'+miniImg+'" width="130" height="100"><h3>' + title + '</h3><p>' + price + '</p><button class="goods-item-btn" type="button">Добавить</button></div>';
+    return '<div class="goods-item"><img alt="not found" src="'+miniImg+'" width="130" height="100"><h3>' + title + '</h3><p>' + price + ' $ </p><button class="goods-item-btn" type="button">Добавить</button></div>';
 }
 //почему-то не работет ${title}. Почему?
 
