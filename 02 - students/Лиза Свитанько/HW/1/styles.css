@@ -1,0 +1,46 @@
+header {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid darkgray;
+    padding: 10px;
+}
+
+.cart-button {
+    align-self: flex-end;
+}
+
+body {
+    background-color: powderblue;
+}
+
+.goods-list {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 2vw;
+    margin: 10px 0;
+}
+
+.goods-item {
+    border: 1px solid darkgray;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.goods-img {
+    background-color: aliceblue;
+    height: 100px;
+}
+
+p {
+    margin: 5px;
+}
+
+h3 {
+    margin: 5px;
+}
+
+#add-btn {
+    align-self: flex-end;
+}
