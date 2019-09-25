@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Document</title>
+	<script src="./script.js" defer></script>
+</head>
+<body>
+	<div class="burger-form"></div>
+	<form action="#">
+		<fieldset>
+			<legend>Размер</legend>
+			<label><input type="radio" name="size" value="big" required checked>Большой (100р., 40кал.)</label>
+			<br>
+			<label><input type="radio" name="size" value="small" >Маленький (50р., 20кал.)</label>
+		</fieldset>
+		<fieldset>
+			<legend>Начинка</legend>
+			<label><input type="radio" name="stuffing" value="cheese" required checked>Сыр (10р., 20кал.)</label>
+			<br>
+			<label><input type="radio" name="stuffing" value="salad">Салат (20р., 5кал.)</label>
+			<br>
+			<label><input type="radio" name="stuffing" value="potato">Картофель (15р., 10кал.)</label>
+		</fieldset>
+		<fieldset>
+			<legend>Добавка</legend>
+			<label><input type="checkbox" name="topping" value="flavoring">Посыпать приправой (15р., 0кал.)</label>
+			<br>
+			<label><input type="checkbox" name="topping" value="mayo">Полить майонезом (20р., 5кал.)</label>
+		</fieldset>
+		<br>
+		<input type="submit" value="Рассчитать">
+		<br><br>
+		<fieldset>
+			<legend>Результат</legend>
+			<label>Стоимость: <span class="price">0</span>р. </label>
+			<br>
+			<label>Калорийность: <span class="cal">0</span>кал.</label>
+		</fieldset>
+	</form>
+</body>
+</html>
