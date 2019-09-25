@@ -1,0 +1,55 @@
+* {border:0; outline: 0; padding: 0; margin: 0;}
+
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  border-bottom: 2px solid rgb(212, 16, 16);
+  background: rgba(179, 219, 169, 0.699);
+  height: 70px;
+}
+
+.cart-button {
+  background: rgb(252, 0, 0);
+  color: #fff;
+  border-radius: 15px;
+  font-size: 15px;
+  margin-right: 15px;
+  padding: 10px;
+  outline: none;
+}
+
+.cart-button:hover {
+  color: rgb(245, 192, 94);
+  cursor: pointer;
+}
+
+.goods-list {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  padding: 10px 0;
+}
+
+.goods-item {
+  background: rgb(86, 151, 102);
+  text-align: center;
+  border: 1px solid black;
+  padding: 5px 20px;
+}
+
+h3 {
+  color: rgb(245, 222, 222);
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+p {
+  color: rgb(245, 237, 130);
+  font-size: 22px;
+}
+
+p::after {
+  content: " rub";
+}
