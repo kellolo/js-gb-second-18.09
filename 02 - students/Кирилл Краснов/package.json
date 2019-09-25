@@ -1,0 +1,16 @@
+{
+  "name": "study-project",
+  "version": "1.0.0",
+  "description": "learning js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kirill Krasnov",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.3.1",
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.9"
+  }
+}
