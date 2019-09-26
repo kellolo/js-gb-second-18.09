@@ -1,47 +1,54 @@
 //заглушки (имитация базы данных)
-const image = 'https://placehold.it/200x150';
-const cartImage = 'https://placehold.it/100x80';
-const items = ['Notebook', 'Display', 'Keyboard', 'Mouse', 'Phones', 'Router', 'USB-camera', 'Gamepad'];
+const image = "https://placehold.it/200x150";
+const cartImage = "https://placehold.it/100x80";
+const items = [
+  "Notebook",
+  "Display",
+  "Keyboard",
+  "Mouse",
+  "Phones",
+  "Router",
+  "USB-camera",
+  "Gamepad"
+];
 const prices = [1000, 200, 20, 10, 25, 30, 18, 24];
 const ids = [1, 2, 3, 4, 5, 6, 7, 8];
 
 //создание массива объектов - имитация загрузки данных с сервера
-function fetchData () {
-    let arr = [];
-    for (let i = 0; i < items.length; i++) {
-        arr.push (createProduct (i));
-    }
-    return arr
-};
+function fetchData() {
+  let arr = [];
+  for (let i = 0; i < items.length; i++) {
+    arr.push(createProduct(i));
+  }
+  return arr;
+}
 
 //создание объекта товара
-function createProduct (i) {
-    return {
-        id: ids[i],
-        name: items[i],
-        price: prices[i],
-        img: image,
-    }
+function createProduct(i) {
+  return {
+    id: ids[i],
+    name: items[i],
+    price: prices[i],
+    img: image
+  };
 }
-let data = fetchData () //массив объектов для создания товаров
+let data = fetchData(); //массив объектов для создания товаров
 
-
-function fetchProducts () {
-    let arr = [];
-    for (let i = 0; i < items.length; i++) {
-        arr.push (new Product (data [i]));
-    }
-    return arr
+function fetchProducts() {
+  let arr = [];
+  for (let i = 0; i < items.length; i++) {
+    arr.push(new Product(data[i]));
+  }
+  return arr;
 }
-
 
 class Product {
-    constructor (product) {
-        this.title = product.name
-        this.price = product.price
-        this.img = product.img
-        this.id = product.id
-        this.template = `<div class="product-item" data-id="${this.id}">
+  constructor(product) {
+    this.title = product.name;
+    this.price = product.price;
+    this.img = product.img;
+    this.id = product.id;
+    this.template = `<div class="product-item" data-id="${this.id}">
                             <img src="${this.img}" alt="Some img">
                             <div class="desc">
                                 <h3>${this.title}</h3>
@@ -52,54 +59,101 @@ class Product {
                                 data-image="${this.img}"
                                 data-price="${this.price}">Купить</button>
                             </div>
-                        </div>`
-    }
+                        </div>`;
+  }
 }
 
 class ProductsList {
-    constructor () {
-        this.products = []
-        this._init ()
-    }
+  constructor() {
+    this.products = [];
+    this._init();
+  }
 
-    _init () {
-        this.products = fetchProducts ()
-    }
-    render () {
-        const block = document.querySelector ('.products')
-        this.products.forEach ( product => {
-            block.innerHTML += product.template
-        } )
-    }
+  _init() {
+    this.products = fetchProducts();
+  }
+  render() {
+    const block = document.querySelector(".products");
+    this.products.forEach(product => {
+      block.innerHTML += product.template;
+    });
+  }
 }
 
-let list = new ProductsList
-list.render ()
-
-
-class cartItem {
-   constructor (product) {
-       this.id = product.id
-       this.title = product.name
-
-   }
-}
+let list = new ProductsList();
+list.render();
 
 //корзина товаров
-class Cart {
-    constructor () {
-        this.ids = [] //номера выбранных продуктов
-        this.items = [] // наименования выбранных продуктов
-        this.cost = 0 // общая стоимость выбранных продуктов
-     }
-     // добавление продукта в корзину
-     addCart (product) {
-         this.ids.push(product.id)
-         this.items.push(product.name)
-         this.cost += product.price 
-     }
-     
+class cartItem {
+  constructor() {
+    this.id = []; //номера выбранных продуктов
+    this.cartImage = []; //массив каритнок выбранных товаров
+    this.title = []; // наименования выбранных продуктов
+    this.price = 0; // общая стоимость выбранных продуктов
+    this.quantity = 0; //количество покупок
+  }
 }
+
+//корзина
+class Cart {
+
+// Добавление продуктов в корзину
+function addProduct(product) {
+  let productId = +product.dataset['id'];
+  let find = userCart.find(element => element.id === productId);
+  if (!find) {
+    userCart.push({
+      name: product.dataset['name'],
+      id: productId,
+      img: cartImage,
+      price: +product.dataset['price'],
+      quantity: 1
+    })
+  } else {
+    find.quantity++
+  }
+  renderCart()
+}
+
+//удаление товаров
+function removeProduct(product) {
+  let productId = +product.dataset['id'];
+  let find = userCart.find(element => element.id === productId);
+  if (find.quantity > 1) {
+    find.quantity--;
+  } else {
+    userCart.splice(userCart.indexOf(find), 1);
+    document.querySelector(`.cart-item[data-id="${productId}"]`).remove()
+  }
+  renderCart();
+}
+
+//перерендер корзины
+function renderCart() {
+  let allProducts = '';
+  for (el of userCart) {
+    allProducts += `<div class="cart-item" data-id="${el.id}">
+                            <div class="product-bio">
+                                <img src="${el.img}" alt="Some image">
+                                <div class="product-desc">
+                                    <p class="product-title">${el.name}</p>
+                                    <p class="product-quantity">Quantity: ${el.quantity}</p>
+                                    <p class="product-single-price">$${el.price} each</p>
+                                </div>
+                            </div>
+                            <div class="right-block">
+                                <p class="product-price">${el.quantity * el.price}</p>
+                                <button class="del-btn" data-id="${el.id}">&times;</button>
+                            </div>
+                        </div>`
+  }
+
+  document.querySelector(`.cart-block`).innerHTML = allProducts;
+}
+
+}
+
+
 // //глобальные сущности корзины и каталога (ИМИТАЦИЯ! НЕЛЬЗЯ ТАК ДЕЛАТЬ!)
 // var userCart = [];
 // var list = fetchData ();
@@ -120,7 +174,6 @@ class Cart {
 //         addProduct (evt.target);
 //     }
 // })
-
 
 // //рендер списка товаров (каталога)
 // function renderProducts () {
