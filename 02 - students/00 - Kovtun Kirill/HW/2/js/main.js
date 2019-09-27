@@ -83,12 +83,10 @@ class ProductsList {
         this.products.forEach ( product => {
             total+=product.price
         } )
-        totalDiv=document.createElement("DIV")
-        (block.parentNode).insertBefore(totalDiv,
-        totalDiv.innerHTML=
-                `<h4>Итого на сумму: ${total} $</h4>        
-             </div>
-            `)
+        let totalDiv=document.createElement("DIV");
+        (block.parentNode).insertBefore(totalDiv,block.nextSibling);
+        totalDiv.classList.add("totalPrice");
+        totalDiv.innerHTML=`<h4>Итого товаров на сумму: ${total} $</h4>`;
     }
 }
 
@@ -98,11 +96,32 @@ list.totalPrice()
 
 
 class cartItem {
-
+    constructor(Product){
+        //
+    }
 }
 
 class Cart {
+    constructor(){
 
+    }
+
+    _init(){
+
+    }
+
+    addProduct(c=cartItem, q=1)
+    {
+        //
+    }
+
+    removeProduct(c=cartItem, q=1){
+        //
+    }
+
+    renderCart(){
+        //
+    }
 }
 // //глобальные сущности корзины и каталога (ИМИТАЦИЯ! НЕЛЬЗЯ ТАК ДЕЛАТЬ!)
 // var userCart = [];
