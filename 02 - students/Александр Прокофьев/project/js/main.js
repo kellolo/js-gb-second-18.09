@@ -1,36 +1,41 @@
 //заглушки (имитация базы данных)
+const urlGitHubServer = "https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/catalogData.json";
 const image = 'https://placehold.it/200x150';
 const cartImage = 'https://placehold.it/100x80';
 const items = ['Notebook', 'Display', 'Keyboard', 'Mouse', 'Phones', 'Router', 'USB-camera', 'Gamepad'];
 const prices = [1000, 200, 20, 10, 25, 30, 18, 24];
 const ids = [1, 2, 3, 4, 5, 6, 7, 8];
 
-//создание массива объектов - имитация загрузки данных с сервера
-function fetchData() {
-    let arr = [];
-    for (let i = 0; i < items.length; i++) {
-        arr.push(createProduct(i));
-    }
-    return arr;
-}
+let makeGETRequest = (url) => {
+    return new Promise((resolve, reject) => {
+        let xhr
 
-//создание объекта товара
-function createProduct(i) {
-    return {
-        id: ids[i],
-        name: items[i],
-        price: prices[i],
-        img: image,
-    }
-}
-let data = fetchData(); //массив объектов для создания товаров
+        if (window.XMLHttpRequest){
+            xhr = new XMLHttpRequest()
+        } else if (window.ActiveXObject){
+            // браузер IO
+            xhr = new ActiveXObject("Microsoft.XMLHTTP")
+        }        
 
-function fetchProducts() {
-    let arr = [];
-    for (let i = 0; i < items.length; i++) {
-        arr.push(new Product(data[i]));
-    }
-    return arr;
+        // повесили обработчик события на изменение статуса запроса
+        xhr.onreadystatechange = () => {
+            // если запрос выполнен
+            if (xhr.readyState === 4){
+                // проверяем успешно или с ошибкой выполнен запрос
+                if (xhr.status == 200){
+                    // в callback resolve передаём результат выполнения запроса - данные
+                    resolve(xhr.responseText)
+                } else {
+                    reject(xhr.status)
+                }
+            }
+        }
+
+        // определяем параметры запроса: задаём тип запроса, адрес ресурса, флаг асинхронности
+        xhr.open("GET", url, true);
+        // отправили запрос на сервер
+        xhr.send();
+    });
 }
 
 class Product {
@@ -56,12 +61,11 @@ class Product {
 
 class ProductsList {
     constructor() {
-        this.products = [];
-        this._init();
+        this.products = []
+        this._init()
     }
 
     _init() {
-        this.products = fetchProducts();
         document.querySelector('.products').addEventListener('click', (evt) => {
             if (evt.target.classList.contains('buy-btn')) {
                 let productId = +evt.target.dataset['id'];
@@ -70,21 +74,38 @@ class ProductsList {
             }
         })
     }
-    render() {
+    _render() {
         const block = document.querySelector('.products');
         this.products.forEach(product => {
             block.innerHTML += product.template
         });
     }
+    _mapProducts(srvProducts){
+        srvProducts.forEach(srvProduct => {
+            // деструктурируем массив продуктов, полученный по запросу с сервера
+            let {id_product: id, product_name: name, price} = srvProduct
+            this.products.push(new Product({id: id, name: name, price: price, img: image}))
+        });
+    }
+    fetchProducts() {
+        makeGETRequest(urlGitHubServer)
+            .then((srvData) => {
+                this._mapProducts(JSON.parse(srvData))
+                this._render()
+            })
+            // .then(this._render()) // почему-то срабатывает раньше чем заполняется this.products
+            .catch((err) => {console.log(err)})
+    }
+
 }
 
-let list = new ProductsList;
-list.render();
+let list = new ProductsList
+list.fetchProducts()
 
 class CartItem {
     constructor(product) {
-        this.product = product;
-        this.quantity = 0;
+        this.product = product
+        this.quantity = 0
     }
 
     genTemplate() {
