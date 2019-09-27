@@ -26,10 +26,6 @@ function createProduct (i) {
 let data = fetchData () //массив объектов для создания товаров
 
 
-
-
-
-
 function fetchProducts () {
     let arr = [];
     for (let i = 0; i < items.length; i++) {
@@ -75,34 +71,34 @@ class ProductsList {
             block.innerHTML += product.template
         } )
     }
-
-    totalPrice() {
-        let total=0
-        const block = document.querySelector ('.products')
-        //totalBlock=document.createElement()
-        this.products.forEach ( product => {
-            total+=product.price
-        } )
-        totalDiv=document.createElement("DIV")
-        (block.parentNode).insertBefore(totalDiv,
-        totalDiv.innerHTML=
-                `<h4>Итого на сумму: ${total} $</h4>        
-             </div>
-            `)
-    }
 }
 
 let list = new ProductsList
 list.render ()
-list.totalPrice()
 
 
 class cartItem {
+   constructor (product) {
+       this.id = product.id
+       this.title = product.name
 
+   }
 }
 
+//корзина товаров
 class Cart {
-
+    constructor () {
+        this.ids = [] //номера выбранных продуктов
+        this.items = [] // наименования выбранных продуктов
+        this.cost = 0 // общая стоимость выбранных продуктов
+     }
+     // добавление продукта в корзину
+     addCart (product) {
+         this.ids.push(product.id)
+         this.items.push(product.name)
+         this.cost += product.price 
+     }
+     
 }
 // //глобальные сущности корзины и каталога (ИМИТАЦИЯ! НЕЛЬЗЯ ТАК ДЕЛАТЬ!)
 // var userCart = [];

@@ -6,16 +6,16 @@ const prices = [1000, 200, 20, 10, 25, 30, 18, 24];
 const ids = [1, 2, 3, 4, 5, 6, 7, 8];
 
 //создание массива объектов - имитация загрузки данных с сервера
-function fetchData () {
+function fetchData() {
     let arr = [];
     for (let i = 0; i < items.length; i++) {
-        arr.push (createProduct (i));
+        arr.push(createProduct(i));
     }
     return arr
 };
 
 //создание объекта товара
-function createProduct (i) {
+function createProduct(i) {
     return {
         id: ids[i],
         name: items[i],
@@ -23,24 +23,24 @@ function createProduct (i) {
         img: image,
     }
 }
-let data = fetchData () //массив объектов для создания товаров
+let data = fetchData() //массив объектов для создания товаров
 
 
 
 
 
 
-function fetchProducts () {
+function fetchProducts() {
     let arr = [];
     for (let i = 0; i < items.length; i++) {
-        arr.push (new Product (data [i]));
+        arr.push(new Product(data[i]));
     }
     return arr
 }
 
 
 class Product {
-    constructor (product) {
+    constructor(product) {
         this.title = product.name
         this.price = product.price
         this.img = product.img
@@ -61,40 +61,24 @@ class Product {
 }
 
 class ProductsList {
-    constructor () {
+    constructor() {
         this.products = []
-        this._init ()
+        this._init()
     }
 
-    _init () {
-        this.products = fetchProducts ()
+    _init() {
+        this.products = fetchProducts()
     }
-    render () {
-        const block = document.querySelector ('.products')
-        this.products.forEach ( product => {
+    render() {
+        const block = document.querySelector('.products')
+        this.products.forEach(product => {
             block.innerHTML += product.template
-        } )
-    }
-
-    totalPrice() {
-        let total=0
-        const block = document.querySelector ('.products')
-        //totalBlock=document.createElement()
-        this.products.forEach ( product => {
-            total+=product.price
-        } )
-        totalDiv=document.createElement("DIV")
-        (block.parentNode).insertBefore(totalDiv,
-        totalDiv.innerHTML=
-                `<h4>Итого на сумму: ${total} $</h4>        
-             </div>
-            `)
+        })
     }
 }
 
 let list = new ProductsList
-list.render ()
-list.totalPrice()
+list.render()
 
 
 class cartItem {
@@ -192,3 +176,4 @@ class Cart {
 
 //     document.querySelector(`.cart-block`).innerHTML = allProducts;
 // }
+

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        
+        // let a, b
+
+        // let asy = () => {
+        //     a = 10
+        //     setTimeout (() => {
+        //        b = 20 //async -отсюда ----->
+        //        console.log (b)
+        //     }, 0) 
+
+        //     console.log (a)
+        //     //вот сюда <--=-----
+        // }
+
+
+        
+        // function makeGETRequest(url, callback) {
+        //     let xhr = new XMLHttpRequest ()
+
+        //     xhr.onreadystatechange = function () {
+        //         if (xhr.readyState === 4) {
+        //             callback(xhr.responseText);
+        //         }
+        //     }
+
+        //     xhr.open('GET', url, true);
+        //     xhr.send();
+        // }
+
+        // makeGETRequest ('https://jsonplaceholder.typicode.com/users?_limit=5', (data) => {
+        //     console.log (JSON.parse(data))
+        // })
+
+        
+        //PROMISES
+        
+        let asf = (a) => {
+            return new Promise ((resolve, reject) => {
+                setTimeout (() => {
+                    if (a) {
+                        console.log ('ok')
+                        let sum = 10 + a
+                        resolve (sum)
+                    } else {
+                        console.log ('not ok')
+                        reject ('some error')
+                    }
+                })
+            })
+        }
+
+        asf ()
+            .then (data => {console.log (data)})
+            .catch (err => {console.log (err)}) 
+        //asf () // -> reject
+
+
+        // FETCH promise
+        function makeGETRequestFetch () {
+            fetch ('https://jsonplaceholder.typicode.com/users?_limit=10')
+                .then(result => result.json())
+                .then (d => { console.log (d) })
+                .catch (err => {console.log (err)})
+        }
+
+        //makeGETRequestFetch ()
+
+        // async....await
+
+        // async function newFunction () {
+        //     let a = await fetch ('https://jsonplaceholder.typicode.com/users?_limit=10').then (d => d.json ())
+        //     console.log (a)
+        // }
+
+        // async/await + fetch
+        
+        async function newFunction () {
+            try {
+                let a = await fetch ('https://1111jsonplaceholder.typicode.com/users?_limit=10').then (d => d.json ())
+                console.log (a)
+            } 
+            catch (err) {
+                console.log ('somethig bad happened')
+                let a = await fetch ('https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/catalogData.json').then (d => d.json ())
+                console.log (a)
+            }
+        }
+
+        // async/await + axios
+    </script>
+</body>
+</html>
