@@ -1,0 +1,65 @@
+body {
+    margin: 0 auto;
+}
+
+header {
+    background-color: silver;
+    height: 150px;
+    width: auto;
+}
+
+main {
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.cart-button {
+    float: right;
+    box-shadow: 2px 0 2px 1px;
+    margin-top: 110px;
+    margin-right: 30px;
+    border-radius: 45%;
+    width: 8%;
+    height: 15%;
+    background-color: papayawhip;
+    font-weight: 500;
+    color: black;
+    cursor: pointer;
+}
+
+.cart-button:hover {
+    background-color: hotpink;
+    font-weight: 700;
+    color: black;
+}
+
+.goods-list {
+    display: flex;
+    color: black;
+    width: 10%;
+    height: 15%;
+    outline: 2px;
+    outline-color: black;
+}
+
+.goods-item {
+    height: 150px;
+    width: 150px;
+    text-align: center;
+    border-radius: 10%;
+    background-color: cornsilk;
+    padding: 45px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid red;
+    margin-right: 20%;
+    margin-top: 30%;
+}
+
+.goods-item:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: transform 0.2s ease-in-out;
+    background-color: lightpink;
+}
