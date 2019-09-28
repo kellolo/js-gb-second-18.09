@@ -56,6 +56,7 @@ class Product {
 class ProductsList {
     constructor () {
         this.products = [];
+        this.makeGETRequest ();
         this._init ();
         this.cart = new Cart();
         this._render ();
