@@ -2,40 +2,40 @@ const image = 'https://placehold.it/200x150';
 const cartImage = 'https://placehold.it/100x80';
 const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses'
 /* функция makeGETRequest - на основе callback функции*/
-function makeGETRequest(url, callback) {
-    let xhr;
-    if (window.XMLHttpRequest) {
-        xhr = new XMLHttpRequest();
-    } else if (window.ActiveXObject) {
-        xhr = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            callback(xhr.responseText);
-        }
-    }
-    xhr.open('GET', url, true);
-    xhr.send();
-}
+// function makeGETRequest(url, callback) {
+//     let xhr;
+//     if (window.XMLHttpRequest) {
+//         xhr = new XMLHttpRequest();
+//     } else if (window.ActiveXObject) {
+//         xhr = new ActiveXObject("Microsoft.XMLHTTP");
+//     }
+//     xhr.onreadystatechange = function () {
+//         if (xhr.readyState === 4) {
+//             callback(xhr.responseText);
+//         }
+//     }
+//     xhr.open('GET', url, true);
+//     xhr.send();
+// }
 
-// функция makeGETRequest - на основе Promise не получается завершить
-/*function makeGETRequest(url) {
-    return new Promise(function (resolve,reject) {
-        let xhr = new XMLHttpRequest()
-        xhr.open('GET', url, true)
-        xhr.onload = () => resolve(xhr.responseText);
-        xhr.onerror = () => reject(new Error(`Ошибка загрузки скрипта ${url}`));
-        xhr.open('GET', url, true);
-        xhr.send();      
-    }
-    )};*/
+// функция makeGETRequest - на основе Promise не получается завершить - OKAAAY
+// function makeGETRequest(url) {
+//     return new Promise(function (resolve,reject) {
+//         let xhr = new XMLHttpRequest()
+//         xhr.open('GET', url, true)
+//         xhr.onload = () => resolve(xhr.responseText);
+//         xhr.onerror = () => reject(new Error(`Ошибка загрузки скрипта ${url}`));
+//         xhr.open('GET', url, true);
+//         xhr.send();      
+//     }
+// )};
      
-/*function makeGETRequest (url) {
-    fetch (url)
-    .then(result => result.json())
-    .then (d =>  d= JSON.parse(d))
-    .catch (err => {console.log (err)})
-}*/
+function makeGETRequest (url) {
+    return fetch (url)
+        .then(result => result.json())
+        //.then (d => d = JSON.parse(d)) - ЛИШНЯЯ ФИГНЯ
+        .catch (err => {console.log (err)})
+}
 
 
 
@@ -65,21 +65,46 @@ class ProductsList {
         this.products = []
     }
     /* функция makeGETRequest - на основе callback функции*/
-    fetchProducts(cb) {
-        makeGETRequest(`${API_URL}/catalogData.json`, (products) => {
-            this.products = JSON.parse(products)
-            cb()
-        })
+    // fetchProducts(cb) {
+    //     makeGETRequest(`${API_URL}/catalogData.json`, (products) => {
+    //         this.products = JSON.parse(products)
+    //         cb()
+    //     })
 
-    }
+    // }
 
     /* функция makeGETRequest - на основе promise функции*/
-  /*  fetchProducts() {
-        makeGETRequest(`${API_URL}/catalogData.json`)
-       products => {this.products = JSON.parse(products)}
-        this.render()
-        
-    }*/
+    // fetchProducts() {
+    //     makeGETRequest(`${API_URL}/catalogData.json`)
+    //         .then (data => {
+    //             this.products = JSON.parse(data)
+    //             this.render()
+    //         })
+    //         .catch (err => {
+    //             console.log ('error')
+    //         })
+    // }
+
+    async fetchProducts() {
+        // makeGETRequest(`${API_URL}/catalogData.json`)
+        //     .then (data => {
+        //         this.products = data
+        //         this.render()
+        //     })
+
+        try {
+            this.products = await fetch (`${API_URL}/catalogData.json`)
+                .then (data => data.json ()) //data ===== xhr.responseText (JSON)
+
+                this.render ()
+        } 
+        catch (err) {
+            console.log (err)
+        }
+        finally {
+            console.log ('end of async')
+        }
+    }
 
     render() {
         this.products.forEach(product => {
