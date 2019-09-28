@@ -75,35 +75,94 @@ class ProductsList {
             block.innerHTML += product.template
         } )
     }
+}
 
-    totalPrice() {
-        let total=0
-        const block = document.querySelector ('.products')
-        //totalBlock=document.createElement()
-        this.products.forEach ( product => {
-            total+=product.price
-        } )
-        totalDiv=document.createElement("DIV")
-        (block.parentNode).insertBefore(totalDiv,
-        totalDiv.innerHTML=
-                `<h4>Итого на сумму: ${total} $</h4>        
-             </div>
-            `)
+
+
+
+class cartItem {
+    constructor (product) {
+        this.product = product;
+        this.quantity = 0;
+    }
+
+    getTemplate () {
+        return `<div class="cart-item" data-id="${this.product.id}">
+                    <div class="product-bio">
+                        <img src="${cartImage}" alt="Some image">
+                        <div class="product-desc">
+                            <p class="product-title">${this.product.title}</p>
+                            <p class="product-quantity">Quantity: ${this.quantity}</p>
+                            <p class="product-single-price">$${this.product.price} each</p>
+                        </div>
+                    </div>
+                    <div class="right-block">
+                        <p class="product-price">${this.quantity * this.product.price}</p>
+                        <button class="del-btn" data-id="${this.product.id}">&times;</button>
+                    </div>
+                </div>`;
+    }
+}
+
+class Cart {
+    constructor () {
+        this.cartItems = [];
+        this._init ();
+        this._render ();
+    }
+
+    _init () {
+        document.querySelector('.btn-cart').addEventListener('click', () => {
+            document.querySelector('.cart-block').classList.toggle('invisible')
+        });
+        document.querySelector ('.cart-block').addEventListener ('click', (evt) => {
+            if (evt.target.classList.contains ('del-btn')) {
+                this.removeProduct (evt.target);
+            }
+        });
+    }
+
+    _render () {
+        const block = document.querySelector ('.cart-block');
+        block.innerHTML = "";
+        let sum = 0;
+        this.cartItems.forEach (cartItem => {
+            sum += cartItem.quantity * cartItem.product.price;
+            block.innerHTML += cartItem.getTemplate ();
+        });
+        block.innerHTML = `<div><p>Total price: ${sum}</p><hr><div>` + block.innerHTML;
+        
+    }
+
+    addProduct (product) {
+        let find = this.cartItems.find (element => element.product.id === product.id);
+        if (find) {
+            find.quantity++;
+        } 
+        else {
+            find = new cartItem (product);
+            find.quantity++;
+            this.cartItems.push (find);
+        }
+        this._render ();
+    }
+
+    removeProduct (product) {
+        let productId = +product.dataset['id'];
+        let find = this.cartItems.find (element => element.product.id === productId);
+        if (find.quantity > 1) {
+            find.quantity--;
+        } else {
+            this.cartItems.splice(this.cartItems.indexOf(find), 1);
+            document.querySelector(`.cart-item[data-id="${productId}"]`).remove();
+        }
+        this._render ();
     }
 }
 
 let list = new ProductsList
 list.render ()
-list.totalPrice()
-
-
-class cartItem {
-
-}
-
-class Cart {
-
-}
+    
 // //глобальные сущности корзины и каталога (ИМИТАЦИЯ! НЕЛЬЗЯ ТАК ДЕЛАТЬ!)
 // var userCart = [];
 // var list = fetchData ();
