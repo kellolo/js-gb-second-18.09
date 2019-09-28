@@ -60,7 +60,22 @@ class ProductsList {
         this.cart = new Cart();
         this._render ();
     }
-
+    async makeGETRequest () {
+        try {
+            let a = await fetch ('https://raw.githubusercontent.com/amsv/js-gb-second-18.09/master/02%20-%20students/Aleksey%20Amosov/project/js/catalogData.json')
+                .then (d => d.json ())
+                .then (res => {
+                    data = res
+                    console.log(data)
+                })
+                .then (() => this._init ())
+                .then ( () => this._render ());
+        } 
+        catch (err) {
+            console.log ('somethig bad happened')
+        }
+    }
+    
     _init () {
         this.products = fetchProducts ();
         document.querySelector ('.products').addEventListener ('click', (evt) => {
@@ -161,3 +176,4 @@ class Cart {
 }
 
 let list = new ProductsList;
+//list.makeGETRequest ();
