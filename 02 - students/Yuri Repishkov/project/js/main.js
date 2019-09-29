@@ -1,43 +1,17 @@
-//заглушки (имитация базы данных)
 const image = 'https://placehold.it/200x150';
 const cartImage = 'https://placehold.it/100x80';
-const items = ['Notebook', 'Display', 'Keyboard', 'Mouse', 'Phones', 'Router', 'USB-camera', 'Gamepad'];
-const prices = [1000, 200, 20, 10, 25, 30, 18, 24];
-const ids = [1, 2, 3, 4, 5, 6, 7, 8];
+const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses'
 
-//создание массива объектов - имитация загрузки данных с сервера
-function fetchData() {
-	let arr = [];
-	for (let i = 0; i < items.length; i++) {
-		arr.push(createProduct(i));
-	}
-	return arr
+function makeGETRequest(url) {
+	return new Promise(function (resolve, reject) {
+		let xhr = new XMLHttpRequest();
+		xhr.open('GET', url, true);
+		xhr.onload = () => resolve(xhr.responseText);
+		xhr.onerror = () => reject(new Error(`Error ${url}`));
+		xhr.open('GET', url, true);
+		xhr.send();
+	})
 };
-
-//создание объекта товара
-function createProduct(i) {
-	return {
-		id: ids[i],
-		name: items[i],
-		price: prices[i],
-		img: image,
-	}
-}
-let data = fetchData() //массив объектов для создания товаров
-
-
-
-
-
-
-function fetchProducts() {
-	let arr = [];
-	for (let i = 0; i < items.length; i++) {
-		arr.push(new Product(data[i]));
-	}
-	return arr
-}
-
 
 class Product {
 	constructor(product) {
@@ -62,37 +36,60 @@ class Product {
 
 class ProductsList {
 	constructor() {
-		this.products = []
+		this.products = [],
+		this.cart = new Cart(),
 		this._init()
-		this.cart = new Cart();
-        this.render();
 	}
 
 	_init() {
-		this.products = fetchProducts();
+		document.querySelector('.products').addEventListener('click', (evt) => {
+			if (evt.target.classList.contains('buy-btn')) {
+				let productId = +evt.target.dataset['id'];
+				let find = this.products.find(element => element.id === productId);
+				this.cart.addProduct(find);
+			}
+		});
+	}
 
-		document.querySelector ('.products').addEventListener ('click', (evt) => {
-            if (evt.target.classList.contains ('buy-btn')) {
-                let productId = +evt.target.dataset['id'];
-                let find = this.products.find (element => element.id === productId);
-                this.cart.addProduct (find);
-            }
-        })
+	productsListSrv(dataList) {
+		dataList.forEach(dataList => {
+			let {
+				id_product: id,
+				product_name: name,
+				price
+			} = dataList
+			this.products.push(new Product({
+				id: id,
+				name: name,
+				price: price,
+				img: image
+			}))
+		});
+	}
+
+	fetchProducts() {
+		makeGETRequest(`${API_URL}/catalogData.json`)
+			.then(data => {
+				this.productsListSrv(JSON.parse(data))
+				this.render()
+			})
+			.catch((err) => {
+				console.log(err)
+			})
 	}
 
 	render() {
 		const block = document.querySelector('.products');
 		this.products.forEach(product => {
 			block.innerHTML += product.template
-		})
+		});
 	}
 }
 
-
-class cartItem {
+class CartItem {
 	constructor(product) {
-		this.product = product;
-		this.quantity = 0;
+		this.product = product,
+			this.quantity = 0
 	}
 
 	getTemplate() {
@@ -115,15 +112,16 @@ class cartItem {
 
 class Cart {
 	constructor() {
-		this.cartItems = [];
-		this._init();
-		this.render();
+		this.cartItems = [],
+			this._init(),
+			this.render()
 	}
 
 	_init() {
 		document.querySelector('.btn-cart').addEventListener('click', () => {
 			document.querySelector('.cart-block').classList.toggle('invisible')
 		});
+
 		document.querySelector('.cart-block').addEventListener('click', (evt) => {
 			if (evt.target.classList.contains('del-btn')) {
 				this.removeProduct(evt.target);
@@ -148,7 +146,7 @@ class Cart {
 		if (find) {
 			find.quantity++;
 		} else {
-			find = new cartItem(product);
+			find = new CartItem(product);
 			find.quantity++;
 			this.cartItems.push(find);
 		}
@@ -169,3 +167,4 @@ class Cart {
 }
 
 let list = new ProductsList;
+list.fetchProducts();
