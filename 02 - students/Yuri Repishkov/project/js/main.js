@@ -37,7 +37,6 @@ class Product {
 class ProductsList {
 	constructor() {
 		this.products = [],
-		this.cart = new Cart(),
 		this._init()
 	}
 
@@ -46,7 +45,7 @@ class ProductsList {
 			if (evt.target.classList.contains('buy-btn')) {
 				let productId = +evt.target.dataset['id'];
 				let find = this.products.find(element => element.id === productId);
-				this.cart.addProduct(find);
+				cart.addProduct(find);
 			}
 		});
 	}
@@ -168,3 +167,4 @@ class Cart {
 
 let list = new ProductsList;
 list.fetchProducts();
+let cart = new Cart;
