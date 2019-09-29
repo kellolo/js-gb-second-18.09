@@ -6,37 +6,39 @@ const items = ['Notebook', 'Display', 'Keyboard', 'Mouse', 'Phones', 'Router', '
 const prices = [1000, 200, 20, 10, 25, 30, 18, 24];
 const ids = [1, 2, 3, 4, 5, 6, 7, 8];
 
-let makeGETRequest = (url) => {
-    return new Promise((resolve, reject) => {
-        let xhr
+// В данной версии не используется оставил в учебных целях. 
+// Перешёл на fetch().then().catch()
+// let makeGETRequest = (url) => {
+//     return new Promise((resolve, reject) => {
+//         let xhr
 
-        if (window.XMLHttpRequest){
-            xhr = new XMLHttpRequest()
-        } else if (window.ActiveXObject){
-            // браузер IO
-            xhr = new ActiveXObject("Microsoft.XMLHTTP")
-        }        
+//         if (window.XMLHttpRequest){
+//             xhr = new XMLHttpRequest()
+//         } else if (window.ActiveXObject){
+//             // браузер IO
+//             xhr = new ActiveXObject("Microsoft.XMLHTTP")
+//         }        
 
-        // повесили обработчик события на изменение статуса запроса
-        xhr.onreadystatechange = () => {
-            // если запрос выполнен
-            if (xhr.readyState === 4){
-                // проверяем успешно или с ошибкой выполнен запрос
-                if (xhr.status == 200){
-                    // в callback resolve передаём результат выполнения запроса - данные
-                    resolve(xhr.responseText)
-                } else {
-                    reject(xhr.status)
-                }
-            }
-        }
+//         // повесили обработчик события на изменение статуса запроса
+//         xhr.onreadystatechange = () => {
+//             // если запрос выполнен
+//             if (xhr.readyState === 4){
+//                 // проверяем успешно или с ошибкой выполнен запрос
+//                 if (xhr.status == 200){
+//                     // в callback resolve передаём результат выполнения запроса - данные
+//                     resolve(xhr.responseText)
+//                 } else {
+//                     reject(xhr.status)
+//                 }
+//             }
+//         }
 
-        // определяем параметры запроса: задаём тип запроса, адрес ресурса, флаг асинхронности
-        xhr.open("GET", url, true);
-        // отправили запрос на сервер
-        xhr.send();
-    });
-}
+//         // определяем параметры запроса: задаём тип запроса, адрес ресурса, флаг асинхронности
+//         xhr.open("GET", url, true);
+//         // отправили запрос на сервер
+//         xhr.send();
+//     });
+// }
 
 class Product {
     constructor(product) {
@@ -68,14 +70,14 @@ class ProductsList {
     _init() {
         document.querySelector('.products').addEventListener('click', (evt) => {
             if (evt.target.classList.contains('buy-btn')) {
-                let productId = +evt.target.dataset['id'];
-                let find = this.products.find(element => element.id === productId);
-                cart.addProduct(find);
+                let productId = +evt.target.dataset['id']
+                let find = this.products.find(element => element.id === productId)
+                cart.addProduct(find)
             }
         })
     }
     _render() {
-        const block = document.querySelector('.products');
+        const block = document.querySelector('.products')
         this.products.forEach(product => {
             block.innerHTML += product.template
         });
@@ -87,16 +89,35 @@ class ProductsList {
             this.products.push(new Product({id: id, name: name, price: price, img: image}))
         });
     }
-    fetchProducts() {
-        makeGETRequest(urlGitHubServer)
-            .then((srvData) => {
-                this._mapProducts(JSON.parse(srvData))
-                this._render()
-            })
-            // .then(this._render()) // почему-то срабатывает раньше чем заполняется this.products
-            .catch((err) => {console.log(err)})
+    async fetchProducts() {
+        try {
+            var data = await fetch(urlGitHubServer)
+            .then(srvData => {
+                console.log("Данные в ответе сервера: \n", srvData)
+                console.log("Тип данных: ", typeof srvData) //object Response{}
+                return srvData.json()})
+            this._mapProducts(data)
+            this._render()
+        } catch (error) {
+            console.error("Ошибка: ", error)
+        } finally {
+            console.log("Асинхронный вызов завершён.")
+        }
+        
     }
-
+    // Устаревшая версия с использовантем Promise и makeGETRequest.
+    // Оставил отрывок кода в учебных целях.
+    // Перешёл на fetch().then()
+    // fetchProducts() {            
+    //     makeGETRequest(urlGitHubServer)
+    //         .then((srvData) => {
+    //             console.log("Данные в ответе сервера: \n", srvData)
+    //             console.log("Тип данных: ", typeof srvData) //string
+    //             this._mapProducts(JSON.parse(srvData))
+    //             this._render()
+    //         })
+    //         .catch((err) => {console.log(err)})
+    // }
 }
 
 let list = new ProductsList
