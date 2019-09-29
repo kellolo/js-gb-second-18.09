@@ -25,6 +25,11 @@ function createProduct (i) {
 }
 let data = fetchData () //массив объектов для создания товаров
 
+
+
+
+
+
 function fetchProducts () {
     let arr = [];
     for (let i = 0; i < items.length; i++) {
@@ -32,6 +37,7 @@ function fetchProducts () {
     }
     return arr
 }
+
 
 class Product {
     constructor (product) {
@@ -71,91 +77,92 @@ class ProductsList {
     }
 }
 
-let list = new ProductsList
-list.render ()
+
+
 
 class cartItem {
-    constructor(product) {
-        this.title = product.title
-        this.id = product.id
-        this.img = cartImage
-        this.price = product.price
-        this.quantity = 0
-        this.template = `<div class="cart-item" data-id="${this.id}">
-                            <div class="product-bio">
-                                <img src="${this.img}" alt="Some image">
-                                <div class="product-desc">
-                                    <p class="product-title">${this.name}</p>
-                                    <p class="product-quantity">Quantity: ${this.quantity}</p>
-                                    <p class="product-single-price">$${this.price} each</p>
-                                </div>
-                            </div>
-                            <div class="right-block">
-                                <p class="product-price">${this.quantity * this.price}</p>
-                                <button class="d el-btn" data-id="${this.id}">&times;</button>
-                            </div>
-                        </div>`
+    constructor (product) {
+        this.product = product;
+        this.quantity = 0;
     }
-    
-}
 
+    getTemplate () {
+        return `<div class="cart-item" data-id="${this.product.id}">
+                    <div class="product-bio">
+                        <img src="${cartImage}" alt="Some image">
+                        <div class="product-desc">
+                            <p class="product-title">${this.product.title}</p>
+                            <p class="product-quantity">Quantity: ${this.quantity}</p>
+                            <p class="product-single-price">$${this.product.price} each</p>
+                        </div>
+                    </div>
+                    <div class="right-block">
+                        <p class="product-price">${this.quantity * this.product.price}</p>
+                        <button class="del-btn" data-id="${this.product.id}">&times;</button>
+                    </div>
+                </div>`;
+    }
+}
 
 class Cart {
     constructor () {
-        this.cartItems = []
-		this._render ()
-		this._init ()
+        this.cartItems = [];
+        this._init ();
+        this._render ();
     }
-	_init () {
+
+    _init () {
         document.querySelector('.btn-cart').addEventListener('click', () => {
             document.querySelector('.cart-block').classList.toggle('invisible')
-        })
+        });
         document.querySelector ('.cart-block').addEventListener ('click', (evt) => {
             if (evt.target.classList.contains ('del-btn')) {
                 this.removeProduct (evt.target);
             }
-        })
+        });
     }
+
     _render () {
-        const blockCart = document.querySelector ('.cart-block')
-        this.cartItems.forEach ( cartItem => {
-            blockCart.innerHTML += cartItem.template
-        })
+        const block = document.querySelector ('.cart-block');
+        block.innerHTML = "";
+        let sum = 0;
+        this.cartItems.forEach (cartItem => {
+            sum += cartItem.quantity * cartItem.product.price;
+            block.innerHTML += cartItem.getTemplate ();
+        });
+        block.innerHTML = `<div><p>Total price: ${sum}</p><hr><div>` + block.innerHTML;
+        
     }
-	addProduct (product) {
-        let find = this.cartItems.find (element => element.id === product.id)
-	    if (find) {
-				find.quantity++
-			} else {
-				find = new cartItem(product)
-				find.quantity++
-				this.cartItems.push(find)
-            } 
-        this._render(); 
-    }
-    removeProduct (product) {
-		let productId = +product.dataset['id'];
-        let find = this.cartItems.find (element => element.id === productId);
-        if (find.quantity > 1) {
-            find.quantity--
-        } else {
-            this.cartItems.splice(this.cartItems.indexOf(find), 1);
-            document.querySelector(`.cart-item[data-id="${productId}"]`).remove()
+
+    addProduct (product) {
+        let find = this.cartItems.find (element => element.product.id === product.id);
+        if (find) {
+            find.quantity++;
+        } 
+        else {
+            find = new cartItem (product);
+            find.quantity++;
+            this.cartItems.push (find);
         }
         this._render ();
-       
     }
-    totalCost () {
-		let total = 0
-		this.cartItems.forEach(
-			total += (cartItem.price * cartItem.quantity)
-		)
 
+    removeProduct (product) {
+        let productId = +product.dataset['id'];
+        let find = this.cartItems.find (element => element.product.id === productId);
+        if (find.quantity > 1) {
+            find.quantity--;
+        } else {
+            this.cartItems.splice(this.cartItems.indexOf(find), 1);
+            document.querySelector(`.cart-item[data-id="${productId}"]`).remove();
+        }
+        this._render ();
     }
 }
 
-let userCart = new Cart
-
+let list = new ProductsList
+list.render ()
+    
 // //глобальные сущности корзины и каталога (ИМИТАЦИЯ! НЕЛЬЗЯ ТАК ДЕЛАТЬ!)
 // var userCart = [];
 // var list = fetchData ();
@@ -163,7 +170,7 @@ let userCart = new Cart
 // //кнопка скрытия и показа корзины
 // document.querySelector('.btn-cart').addEventListener('click', () => {
 //     document.querySelector('.cart-block').classList.toggle('invisible');
-//});
+// });
 // //кнопки удаления товара (добавляется один раз)
 // document.querySelector('.cart-block').addEventListener ('click', (evt) => {
 //     if (evt.target.classList.contains ('del-btn')) {

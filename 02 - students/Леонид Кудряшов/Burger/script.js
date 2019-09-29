@@ -38,7 +38,6 @@ class Burger {
             this.cost += 20
             this.calories += 5
         }
-
     }
 }
 
@@ -138,3 +137,12 @@ result.addEventListener ("click", function() {
     let resultCost = document.querySelector(".screen_result");
     resultCost.innerHTML = renderResult.template;
 });
+
+document.addEventListener ('click', test)
+
+function test (e) {
+    if (e.target.value === 'small') {
+        console.log (+ e.target.dataset ['price'])
+        console.log (+ e.target.dataset ['calories'])
+    }
+}

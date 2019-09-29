@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "Шорты",
+    "price": 150,
+    "img": "https://placehold.it/200x150"
+  },
+  {
+    "id": 2,
+    "name": "Носки",
+    "price": 50,
+    "img": "https://placehold.it/200x150"
+  },
+  {
+    "id": 3,
+    "name": "Свитер",
+    "price": 500,
+    "img": "https://placehold.it/200x150"
+  }  
+]
