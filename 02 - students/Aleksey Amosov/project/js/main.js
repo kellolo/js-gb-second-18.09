@@ -80,7 +80,7 @@ class cartItem {
                     <div class="product-bio">
                         <img src="${cartImage}" alt="">
                         <div class="product-desc">
-                            <p class="product-title">${this.product.title}</p>
+                            <p class="product-title">${this.product.name}</p>
                             <p class="product-quantity">Кол-во: ${this.quantity}</p>
                             <p class="product-single-price">${this.product.price} руб. за ед.</p>
                         </div>
