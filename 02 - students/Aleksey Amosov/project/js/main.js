@@ -4,33 +4,8 @@ const items = ['Шорты', 'Носки', 'Свитер', 'Ботинки', 'Ф
 const prices = [150, 50, 500, 1500, 150, 5000, 400, 800, 550, 1000, 1100, 10000, 150, 15000];
 const ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 , 13, 14];
 
-//создание массива объектов - имитация загрузки данных с сервера
-function fetchData () {
-    let arr = [];
-    for (let i = 0; i < items.length; i++) {
-        arr.push (createProduct (i));
-    }
-    return arr;
-};
 
-//создание объекта товара
-function createProduct (i) {
-    return {
-        id: ids[i],
-        name: items[i],
-        price: prices[i],
-        img: image,
-    }
-}
-let data = fetchData () //массив объектов для создания товаров
-
-function fetchProducts () {
-    let arr = [];
-    for (let i = 0; i < items.length; i++) {
-        arr.push (new Product (data [i]));
-    }
-    return arr;
-}
+const API_URL = 'https://raw.githubusercontent.com/amsv/js-gb-second-18.09/master/02%20-%20students/Aleksey%20Amosov/project/js';
 
 class Product {
     constructor (product) {
@@ -56,29 +31,26 @@ class Product {
 class ProductsList {
     constructor () {
         this.products = [];
-        this.makeGETRequest ();
-        this._init ();
-        this.cart = new Cart();
-        this._render ();
+		this.fetchProducts();
     }
-    async makeGETRequest () {
-        try {
-            let a = await fetch ('https://raw.githubusercontent.com/amsv/js-gb-second-18.09/master/02%20-%20students/Aleksey%20Amosov/project/js/catalogData.json')
-                .then (d => d.json ())
-                .then (res => {
-                    data = res
-                    console.log(data)
-                })
-                .then (() => this._init ())
-                .then ( () => this._render ());
-        } 
-        catch (err) {
-            console.log ('somethig bad happened')
-        }
+	
+	async fetchProducts() {
+		try {
+			this.products = await fetch (`${API_URL}/catalogData.json`)
+				.then (data => data.json ())
+			this._init ();
+			this.cart = new Cart();
+			this._render ();
+		} 
+		catch (err) {
+			console.log (err)
+		}
+		finally {
+			console.log ('end of async')
+		}
     }
     
-    _init () {
-        this.products = fetchProducts ();
+    _init () {		
         document.querySelector ('.products').addEventListener ('click', (evt) => {
             if (evt.target.classList.contains ('buy-btn')) {
                 let productId = +evt.target.dataset['id'];
@@ -91,7 +63,8 @@ class ProductsList {
     _render () {
         const block = document.querySelector ('.products');
         this.products.forEach ( product => {
-            block.innerHTML += product.template;
+			const goodItem = new Product(product);
+            block.innerHTML += goodItem.template;
         } )
     }
 }
