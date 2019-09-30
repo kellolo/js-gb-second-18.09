@@ -1,66 +1,61 @@
 //заглушки (имитация базы данных)
-const image = 'https://placehold.it/200x150';
-const cartImage = 'https://placehold.it/100x80';
-const items = ['Notebook', 'Display', 'Keyboard', 'Mouse', 'Phones', 'Router', 'USB-camera', 'Gamepad'];
-const prices = [1000, 200, 20, 10, 25, 30, 18, 24];
-const ids = [1, 2, 3, 4, 5, 6, 7, 8];
-
+const components = ['Маленький', 'Большой','С сыром', 'С салатом', 'С картофелем','Посыпать приправой', 'Полить майонезом']
+const prices = [50, 100,10, 20,15,15,20];
+const calories = [20, 40, 20, 5,10, 0,5];
+const groupIds =[1,1,2,2,2,3,4]
+const ids=[1,2,3,4,5,6,7]
 //создание массива объектов - имитация загрузки данных с сервера
 function fetchData () {
     let arr = [];
-    for (let i = 0; i < items.length; i++) {
-        arr.push (createProduct (i));
+    for (let i = 0; i < components.length; i++) {
+        arr.push (createFoodComponent (i));
     }
     return arr
 };
 
 //создание объекта товара
-function createProduct (i) {
+function createFoodComponent (i) {
     return {
         id: ids[i],
-        name: items[i],
+        name: components[i],
         price: prices[i],
-        img: image,
+        calorie: calories[i],
+        groupId: groupIds[i]
     }
 }
 let data = fetchData () //массив объектов для создания товаров
 
-
-
-
-
-
-function fetchProducts () {
+function fetchData() {
     let arr = [];
-    for (let i = 0; i < items.length; i++) {
-        arr.push (new Product (data [i]));
+    for (let i = 0; i < components.length; i++) {
+        arr.push (new FoodComponent (data [i]));
     }
     return arr
 }
 
 
-class Product {
+class FoodComponent {
     constructor (product) {
         this.title = product.name
         this.price = product.price
-        this.img = product.img
+        this.calorie = product.calorie
         this.id = product.id
-        this.template = `<div class="product-item" data-id="${this.id}">
-                            <img src="${this.img}" alt="Some img">
+        this.template = `<div class="meal-component" data-id="${this.id}">
                             <div class="desc">
                                 <h3>${this.title}</h3>
                                 <p>${this.price} $</p>
                                 <button class="buy-btn" 
                                 data-id="${this.id}"
                                 data-name="${this.title}"
-                                data-image="${this.img}"
-                                data-price="${this.price}">Купить</button>
+                                data-image="${this.calorie}"
+                                data-price="${this.price}">Купить
+                                </button>
                             </div>
                         </div>`
     }
 }
 
-class ProductsList {
+class Meal {
     constructor () {
         this.products = []
         this._init ()
@@ -70,7 +65,7 @@ class ProductsList {
         this.products = fetchProducts ()
     }
     render () {
-        const block = document.querySelector ('.products')
+        const block = document.querySelector ('.meal')
         this.products.forEach ( product => {
             block.innerHTML += product.template
         } )
@@ -78,64 +73,22 @@ class ProductsList {
 
     totalPrice() {
         let total=0
-        const block = document.querySelector ('.products')
+        const block = document.querySelector ('.meal')
         //totalBlock=document.createElement()
         this.products.forEach ( product => {
             total+=product.price
         } )
-        totalDiv=document.createElement("DIV")
-        (block.parentNode).insertBefore(totalDiv,
-        totalDiv.innerHTML=
-                `<h4>Итого на сумму: ${total} $</h4>        
-             </div>
-            `)
+        let totalDiv=document.createElement("DIV");
+        (block.parentNode).insertBefore(totalDiv,block.nextSibling);
+        totalDiv.classList.add("totalPrice");
+        totalDiv.innerHTML=`<h4>Итого товаров на сумму: ${total} $</h4>`;
     }
 }
 
-let list = new ProductsList
+let list = new Meal
 list.render ()
 list.totalPrice()
 
-
-class cartItem {
-
-}
-
-class Cart {
-
-}
-// //глобальные сущности корзины и каталога (ИМИТАЦИЯ! НЕЛЬЗЯ ТАК ДЕЛАТЬ!)
-// var userCart = [];
-// var list = fetchData ();
-
-// //кнопка скрытия и показа корзины
-// document.querySelector('.btn-cart').addEventListener('click', () => {
-//     document.querySelector('.cart-block').classList.toggle('invisible');
-// });
-// //кнопки удаления товара (добавляется один раз)
-// document.querySelector('.cart-block').addEventListener ('click', (evt) => {
-//     if (evt.target.classList.contains ('del-btn')) {
-//         removeProduct (evt.target);
-//     }
-// })
-// //кнопки покупки товара (добавляется один раз)
-// document.querySelector('.products').addEventListener ('click', (evt) => {
-//     if (evt.target.classList.contains ('buy-btn')) {
-//         addProduct (evt.target);
-//     }
-// })
-
-
-// //рендер списка товаров (каталога)
-// function renderProducts () {
-//     let arr = [];
-//     for (item of list) {
-//         arr.push(item.createTemplate())
-//     }
-//     document.querySelector('.products').innerHTML = arr.join();
-// }
-
-// renderProducts ();
 
 // //CART
 
