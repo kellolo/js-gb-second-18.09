@@ -16,67 +16,67 @@
     "name": "Свитер",
     "price": 500,
     "img": "https://placehold.it/200x150"
-  }  
+  },  
   {
     "id": 4,
     "name": "Ботинки",
     "price": 1500,
     "img": "https://placehold.it/200x150"
-  }  
+  },  
   {
     "id": 5,
     "name": "Футболка",
     "price": 400,
     "img": "https://placehold.it/200x150"
-  }  
+  },  
   {
     "id": 6,
     "name": "Платье",
     "price": 800,
     "img": "https://placehold.it/200x150"
-  }
+  },
   {
     "id": 7,
     "name": "Плавки",
     "price": 550,
     "img": "https://placehold.it/200x150"
-  }
+  },
   {
     "id": 8,
     "name": "Шарф",
     "price": 1000,
     "img": "https://placehold.it/200x150"
-  }
+  },
   {
     "id": 9,
     "name": "Шапка",
     "price": 1100,
     "img": "https://placehold.it/200x150"
-  }
+  },
   {
     "id": 10,
     "name": "Сандали",
     "price": 1500,
     "img": "https://placehold.it/200x150"
-  }
+  },
   {
     "id": 11,
     "name": "Шляпа",
     "price": 3500,
     "img": "https://placehold.it/200x150"
-  }
+  },
   {
     "id": 12,
     "name": "Свитер",
     "price": 500,
     "img": "https://placehold.it/200x150"
-  }
+  },
   {
     "id": 13,
     "name": "Пальто",
     "price": 10000,
     "img": "https://placehold.it/200x150"
-  }
+  },
   {
     "id": 14,
     "name": "Пуховик",
