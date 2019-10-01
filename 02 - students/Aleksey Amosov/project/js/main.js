@@ -71,7 +71,7 @@ class cartItem {
     getTemplate () {
         return `<div class="cart-item" data-id="${this.product.id}">
                     <div class="product-bio">
-                        <img src="${cartImage}" alt="">
+                        <img src="${this.product.img}" alt="">
                         <div class="product-desc">
                             <p class="product-title">${this.product.name}</p>
                             <p class="product-quantity">Кол-во: ${this.quantity}</p>
@@ -143,3 +143,4 @@ class Cart {
 }
 
 let list = new ProductsList;
+//list.makeGETRequest ();
