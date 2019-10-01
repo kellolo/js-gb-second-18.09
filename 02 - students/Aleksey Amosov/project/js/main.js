@@ -1,10 +1,3 @@
-const image = 'https://placehold.it/200x150';
-const cartImage = 'https://placehold.it/100x80';
-const items = ['Шорты', 'Носки', 'Свитер', 'Ботинки', 'Футболка', 'Платье', 'Плавки', 'Шарф', 'Шапка', 'Сандали', 'Шляпа', 'Пальто', 'Майка', 'Пуховик'];
-const prices = [150, 50, 500, 1500, 150, 5000, 400, 800, 550, 1000, 1100, 10000, 150, 15000];
-const ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 , 13, 14];
-
-
 const API_URL = 'https://raw.githubusercontent.com/amsv/js-gb-second-18.09/master/02%20-%20students/Aleksey%20Amosov/project/js';
 
 class Product {
@@ -150,4 +143,3 @@ class Cart {
 }
 
 let list = new ProductsList;
-//list.makeGETRequest ();
