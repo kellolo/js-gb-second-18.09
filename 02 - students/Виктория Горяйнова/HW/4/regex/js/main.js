@@ -63,18 +63,48 @@ class regexReplacer {
 let r = new regexReplacer();
 
 class validpoint {
-    constructor(){
-        this.id = ``;
-        this.template = ``;
-        this.regex = ``;
+    constructor(_id, _regex){
+        this.id = _id;
+        this.regex = _regex;
     }
-    _init(){
-        document.querySelector(".regBlock")
+    render(){
+        return `<p>Inter ${this.id}</p><input type="text" id="${this.id}" /><br>`;
     }
-    _render(){
-
-    }
-    _validator(){
-
+    validate(value){
+        debugger;
+        return value.match(new RegExp(this.regex, "gmi")) != null;
     }
 }
+
+class validator {
+    constructor() {
+        debugger;
+        this.points = [
+            new validpoint(`name`, `^[a-zA-Zа-яА-Я]*$`),
+            new validpoint(`email`, `^[a-zA-Z\\.\\-]{2,}@[a-zA-Z]+\\.[a-zA-Z]{2,3}$`),
+            new validpoint(`phone`, `^\\+7\\(\\d{3}\\)\\d{3}-\\d{4}$`),
+        ];
+        this._init();
+    }
+    _init() {
+        debugger;
+        let inner = "";
+        this.points.forEach(function(p) {
+            inner += p.render();
+        });
+        let block = document.querySelector(".validationBlock");
+        block.innerHTML = inner;
+        block.addEventListener("input", (evnt) => {
+            debugger;
+            let isValid = this.points.find(el => el.id == evnt.target.id).validate(evnt.target.value);
+            if (!isValid) {
+                document.querySelector("#" + evnt.target.id).classList.add("notValid");
+            }
+            else {
+                document.querySelector("#" + evnt.target.id).classList.remove("notValid");
+            }
+        });
+    }
+}
+
+let v = new validator();
