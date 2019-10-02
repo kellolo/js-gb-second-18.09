@@ -36,9 +36,7 @@ class regexReplacer {
                 <div>`;
     }
     _init() {
-        debugger;
         document.querySelector(".regBlock").addEventListener('input', (evnt) => {
-            debugger;
             switch (evnt.target.id) {
                 case "regExp": {
                     this.regExp = evnt.target.value;
@@ -57,14 +55,26 @@ class regexReplacer {
         document.querySelector(".regBlock").innerHTML = this._render();
 
         document.querySelector("#button").addEventListener("click", () => {
-            debugger;
-            document.querySelector("#text").innerText = this.text.replace(new RegExp(this.regExp, "g"), this.replText);
+            document.querySelector("#text").innerText = this.text.replace(new RegExp(this.regExp, "gmi"), this.replText);
         });
     }
 }
 
 let r = new regexReplacer();
 
-class validator {
+class validpoint {
+    constructor(){
+        this.id = ``;
+        this.template = ``;
+        this.regex = ``;
+    }
+    _init(){
+        document.querySelector(".regBlock")
+    }
+    _render(){
 
+    }
+    _validator(){
+
+    }
 }
