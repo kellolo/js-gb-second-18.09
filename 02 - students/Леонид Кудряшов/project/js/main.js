@@ -1,7 +1,7 @@
 //заглушки (имитация базы данных)
 const image = 'https://placehold.it/200x150';
 const cartImage = 'https://placehold.it/100x80';
-const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses'
+const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
 
 
@@ -112,12 +112,38 @@ class CartItem extends Item {
 class Cart extends List {
   constructor(url = '/getBasket.json', container = '.cart-block') {
     super(url, container)
+    this._go()
   }
   async _init() {
     await this.getJSON()
     this.render()
   }
   //дописать методы
+  _go() {
+    document.querySelector('.btn-cart').addEventListener('click', () => {
+      document.querySelector('.cart-block').classList.toggle('invisible')
+
+    })
+    document.querySelector('.cart-block').addEventListener('click', (event) => {
+      if (event.target.classList.contains('del-btn')) {
+        this.removeGoods(event.target)
+      }
+    })
+
+    document.querySelector('.products').addEventListener('click', (event) => {
+      if (event.target.classList.contains('buy-btn')) {
+        this.addGoods(event.target)
+      }
+    })
+
+  }
+  addGoods(number) {
+    console.log(number.dataset.id)
+  }
+
+  removeGoods(number) {
+    console.log(number.dataset.id)
+  }
 }
 
 const lists = {
