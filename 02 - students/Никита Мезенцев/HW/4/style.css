@@ -1,0 +1,30 @@
+.form-replace {
+    display: flex;
+}
+
+.form-replace textarea {
+    resize: vertical;
+    flex: 1 1 auto;
+    min-height: 300px;
+}
+
+input,
+textarea {
+    display: block;
+    outline: none;
+}
+
+input.error {
+    border-color: red;
+}
+
+.errors {
+    color: red;
+    background-color: hsl(0, 80%, 95%);
+    padding: 15px;
+    list-style: none;
+}
+
+.errors:empty {
+    display: none;
+}
