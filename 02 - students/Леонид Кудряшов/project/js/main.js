@@ -117,6 +117,7 @@ class Cart extends List {
     await this.getJSON()
     this.render()
   }
+  //дописать методы
 }
 
 const lists = {
