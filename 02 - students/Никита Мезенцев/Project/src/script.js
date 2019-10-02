@@ -1,30 +1,42 @@
-const data = [
-    { "id": "0", "title": "Shirt", "price": 150, "img": "https://placehold.it/200x150", "thumb": "https://placehold.it/100x80" },
-    { "id": "1", "title": "Socks", "price": 50, "img": "https://placehold.it/200x150", "thumb": "https://placehold.it/100x80" },
-    { "id": "2", "title": "Jacket", "price": 350, "img": "https://placehold.it/200x150", "thumb": "https://placehold.it/100x80" },
-    { "id": "3", "title": "Socks", "price": 50, "img": "https://placehold.it/200x150", "thumb": "https://placehold.it/100x80" },
-    { "id": "4", "title": "Jacket", "price": 350, "img": "https://placehold.it/200x150", "thumb": "https://placehold.it/100x80" },
-    { "id": "5", "title": "Shoes", "price": 250, "img": "https://placehold.it/200x150", "thumb": "https://placehold.it/100x80" },
-    { "id": "6", "title": "Shirt", "price": 150, "img": "https://placehold.it/200x150", "thumb": "https://placehold.it/100x80" },
-    { "id": "7", "title": "Shoes", "price": 250, "img": "https://placehold.it/200x150", "thumb": "https://placehold.it/100x80" }
-]
+function makeGETRequest(url){
+	return new Promise((resolve, reject) => {
+		const xhr = new XMLHttpRequest()
+		xhr.onloadend = e => {
+			((e.target.status === 200) && resolve || reject)(e.target.responseText)
+		}
+		xhr.open('GET', url, true)
+		xhr.send()
+	})
+}
 
 class DB {
+	constructor() {
+		this.url = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/catalogData.json'
+	}
 	getAll() {
-		return data
+		return makeGETRequest( this.url )
+						.then( text => JSON.parse(text))
+						.catch( err => {
+							console.error("Failed to fetch resources with error:", err)
+						})
 	}
 	getByID(id) {
-		return data.find( i => i.id === id )
+		return makeGETRequest( this.url )
+						.then( text => JSON.parse(text))
+						.then( data => data.find( i => i.id_product.toString() === id ) )
+						.catch( err => {
+							console.error("Failed to fetch resources with error:", err)
+						})
 	}
 }
 
 class Product {
-	constructor({id, title, price, img, thumb}) {
-		this.id = id;
-		this.title = title,
-		this.price = price,
-		this.img = img,
-		this.thumb = thumb
+	constructor({id_product, product_name, price, img, thumb}) {
+		this.id = id_product
+		this.title = product_name
+		this.price = price
+		this.img = img || "https://placehold.it/200x150"
+		this.thumb = thumb || "https://placehold.it/100x80"
 	}
 }
 
@@ -85,14 +97,16 @@ class GoodsList extends ProductList {
 		super(cfg)
 		this.items = []
 		this.fetchData()
+			.then(() => {
+				this.render()
+			})
 	}
 	totalCost() {
 		return this.items.reduce( (acc, {price}) => acc + price,  0)
 	}
-	fetchData() {
-		const data = this._db.getAll()
+	async fetchData() {
+		const data = await this._db.getAll()
 		this.items = data.map(i => new GoodsItem(i))
-		this.render()
 	}
 	render(node) {
 	    let goodsList = this.items.map( i => i.template )
@@ -123,11 +137,11 @@ class CartList  extends ProductList{
 	totalCost() {
 		return this.total
 	}
-	add(id) {
+	async add(id) {
 		if (this.items[id]) {
 			this.items[id].inc()
 		}else {
-			this.items[id] = new CartItem(this._db.getByID(id))
+			this.items[id] = new CartItem( await this._db.getByID(id) )
 		}
 		this.total += this.items[id].price
 		this.count++
@@ -139,6 +153,9 @@ class CartList  extends ProductList{
 		this.count--
 		if (this.items[id].quantity <= 0) delete this.items[id]
 		this.render()
+	}
+	getProducts() {
+		return Object.keys(this.items).map( id => this.items[id])
 	}
 	render() {
 		const cartItems = Object.keys(this.items).map( id => this.items[id].template)
