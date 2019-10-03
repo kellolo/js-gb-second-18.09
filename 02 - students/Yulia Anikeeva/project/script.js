@@ -14,18 +14,30 @@ class GoodsItem {
     return `<div class="goods-item"><img src="${this.image}" alt="${this.title}"><h3>${this.title}</h3><p>${this.price}</p> <button class="item-button" type="button">Купить</button></div>`;
   }
 }
+const API_URL = 'https://raw.githubusercontent.com/YuliaAnikeeva/GitTest/master/catforeshop.json';
+function makeGETRequest(url, callback) {
+  let xhr;
+  xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+      callback(xhr.responseText);
+    }
+  }
+
+  xhr.open('GET', url, true);
+  xhr.send();
+}
 class GoodsList {
   constructor() {
     this.goods = [];
   }
-  fetchGoods() {
-    this.goods = [
-      { title: 'Shirt', price: 150, image: 'img/shirt.png' },
-        { title: 'Socks', price: 50, image: 'img/socks.png' },
-        { title: 'Jacket', price: 350, image: 'img/jacket.png' },
-        { title: 'Shoes', price: 250, image: 'img/shoes.png' },
-    ];
+  fetchGoods(cb) {
+    makeGETRequest(API_URL, (goods) => {
+      this.goods = JSON.parse(goods);
+      cb();
+    })
   }
+
   render() {
     let listHtml = '';
     this.goods.forEach(good => {
@@ -36,8 +48,10 @@ class GoodsList {
   }
 }
 const list = new GoodsList();
-list.fetchGoods();
-list.render();
+list.fetchGoods(() => {
+  list.render();
+});
+
 
 //User cart
 
