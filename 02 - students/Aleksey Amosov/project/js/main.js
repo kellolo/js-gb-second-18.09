@@ -71,7 +71,7 @@ class Product {
     constructor (product) {
         this.title = product.product_name,
         this.price = product.price,
-        this.img = product.img,
+        this.img = img,
         this.id = product.id_product,
         this.template = `<div class="product-item" data-id="${this.id}">
                             <img src="${this.img}" alt="Some img">
