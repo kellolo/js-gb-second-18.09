@@ -114,7 +114,7 @@ class ProductsList {
         document.querySelector ('.products').addEventListener ('click', (evt) => {
             if (evt.target.classList.contains ('buy-btn')) {
                 let productId = +evt.target.dataset['id'];
-                let find = this.products.find (element => element.id === productId);
+                let find = this.products.find (element => element.id_product === productId);
                 this.cart.addProduct (find);
             }
         })
@@ -136,18 +136,18 @@ class cartItem {
     }
 
     getTemplate () {
-        return `<div class="cart-item" data-id="${this.product.id}">
+        return `<div class="cart-item" data-id="${this.product.id_product}">
                     <div class="product-bio">
-                        <img src="${this.product.img}" alt="">
+                        <img src="${cartImage}" alt="">
                         <div class="product-desc">
-                            <p class="product-title">${this.product.name}</p>
+                            <p class="product-title">${this.product.product_name}</p>
                             <p class="product-quantity">Кол-во: ${this.quantity}</p>
                             <p class="product-single-price">${this.product.price} руб. за ед.</p>
                         </div>
                     </div>
                     <div class="right-block">
                         <p class="product-price">${this.quantity * this.product.price}</p>
-                        <button class="del-btn" data-id="${this.product.id}">&times;</button>
+                        <button class="del-btn" data-id="${this.product.id_product}">&times;</button>
                     </div>
                 </div>`;
     }
@@ -184,7 +184,7 @@ class Cart {
     }
 
     addProduct (product) {
-        let find = this.cartItems.find (element => element.product.id === product.id);
+        let find = this.cartItems.find (element => element.product.id_product === product.id_product);
         if (find) {
             find.quantity++;
         } 
@@ -198,7 +198,7 @@ class Cart {
 
     removeProduct (product) {
         let productId = +product.dataset['id'];
-        let find = this.cartItems.find (element => element.product.id === productId);
+        let find = this.cartItems.find (element => element.product.id_product === productId);
         if (find.quantity > 1) {
             find.quantity--;
         } else {
@@ -210,4 +210,3 @@ class Cart {
 }
 
 let list = new ProductsList;
-//list.makeGETRequest ();
