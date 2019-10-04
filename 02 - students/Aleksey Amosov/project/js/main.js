@@ -1,11 +1,78 @@
+//заглушки (имитация базы данных)
+const image = 'https://placehold.it/200x150';
+const cartImage = 'https://placehold.it/100x80';
 const API_URL = 'https://raw.githubusercontent.com/amsv/js-gb-second-18.09/master/02%20-%20students/Aleksey%20Amosov/project/js';
+
+class List {
+    //суперкласс для ProductsList и Cart
+    constructor (url, container) {
+        this.container = container
+        this.url = url
+        this.items = []
+        this.DTO = ''
+        this.renderedItems = []
+        this._init ()
+    }
+    _init () {
+        return false
+    }
+    async getJSON (url) {
+        try {
+            this.items = await fetch (`${API_URL + this.url}`)
+                .then (data => data.json ()) 
+                .then (res => {
+                    this.DTO = res
+                    return res.contents ? this.items = res.contents : this.items = res
+                })
+        } 
+        catch (err) {
+            console.log (err)
+        }
+    }
+    render () {
+        const block = document.querySelector (this.container)
+        for (let item of this.items) {
+            let prod = new lists [this.constructor.name] (item)
+            this.renderedItems.push (prod)
+            block.insertAdjacentHTML ('beforeend', prod.render ())
+        }
+    }
+    filter () {
+        //потом
+    }
+}
+
+class Item {
+    //суперкласс для ProductsItem и CartItem
+    constructor (el, img = 'https://placehold.it/200x150') {
+        this.product_name = el.product_name
+        this.price = el.price
+        this.id_product = el.id_product
+        this.img = img
+    }
+
+    render () {
+        return `<div class="product-item" data-id="${this.id_product}">
+                    <img src="${this.img}" alt="Some img">
+                    <div class="desc">
+                        <h3>${this.product_name}</h3>
+                        <p>${this.price} $</p>
+                        <button class="buy-btn" 
+                        data-id="${this.id_product}"
+                        data-name="${this.product_name}"
+                        data-image="${this.img}"
+                        data-price="${this.price}">Купить</button>
+                    </div>
+                </div>`
+    }
+}
 
 class Product {
     constructor (product) {
-        this.title = product.name,
+        this.title = product.product_name,
         this.price = product.price,
         this.img = product.img,
-        this.id = product.id,
+        this.id = product.id_product,
         this.template = `<div class="product-item" data-id="${this.id}">
                             <img src="${this.img}" alt="Some img">
                             <div class="desc">
