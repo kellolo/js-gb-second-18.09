@@ -46,7 +46,7 @@ class List {
 
 class Item {
     //суперкласс для ProductsItem и CartItem
-    constructor(el, img = 'https://placehold.it/200x150') {
+    constructor(el, img = image) {
         this.product_name = el.product_name
         this.price = el.price
         this.id_product = el.id_product
@@ -86,7 +86,7 @@ class ProductsList extends List {
 
 
 class CartItem extends Item {
-    constructor(el, img = 'https://placehold.it/100x80') {
+    constructor(el, img = cartImage) {
         super(el, img)
         this.quantity = el.quantity
     }
@@ -97,7 +97,7 @@ class CartItem extends Item {
                         <img src="${this.img}" alt="Some image">
                         <div class="product-desc">
                             <p class="product-title">${this.product_name}</p>
-                            <p class="product-quantity">Quantity: ${this.quantity}</p>
+                            <p class="product-quantity">Кол-во: ${this.quantity}</p>
                             <p class="product-single-price">$${this.price} each</p>
                         </div>
                     </div>
@@ -115,10 +115,79 @@ class Cart extends List {
     }
     async _init() {
         await this.getJSON()
+        const block = document.querySelector(this.container)
+        for (let item of this.items) {
+            let prod = new lists[this.constructor.name](item)
+            this.renderedItems.push(prod)
+        }
+        this.render()
+
+        document.querySelector('.btn-cart').addEventListener('click', () => {
+            document.querySelector('.cart-block').classList.toggle('invisible')
+        })
+        document.querySelector('.cart-block').addEventListener('click', (evt) => {
+            if (evt.target.classList.contains('del-btn')) {
+                this.removeProduct(evt.target);
+            }
+        })
+        document.querySelector('.products').addEventListener('click', (evt) => {
+            if (evt.target.classList.contains('buy-btn')) {
+                this.addProduct(evt.target)
+            }
+        })
+    }
+    render() {
+
+        const blockCart = document.querySelector('.cart-block')
+        blockCart.innerHTML = ''
+        this.renderedItems.forEach(CartItem => {
+            blockCart.innerHTML += `<div class="cart-item" data-id="${CartItem.id_product}">
+            <div class="product-bio">
+                <img src="${CartItem.img}" alt="Some image">
+                <div class="product-desc">
+                    <p class="product-title">${CartItem.product_name}</p>
+                    <p class="product-quantity">Кол-во: ${CartItem.quantity}</p>
+                    <p class="product-single-price">$${CartItem.price} each</p>
+                </div>
+            </div>
+            <div class="right-block">
+                <p class="product-price">${CartItem.quantity * CartItem.price}</p>
+                <button class="del-btn" data-id="${CartItem.id_product}">&times;</button>
+            </div>
+        </div>`
+        })
+    }
+    addProduct(product) {
+        console.log(cart);
+        let productId = +product.dataset.id
+        let findItem = this.renderedItems.find(element => element.id_product == productId)
+        this.DTO.countProduct++
+        if (!findItem) {
+            this.renderedItems.push(new lists[this.constructor.name](this.DTO.contents.find(element => element.id_product == productId)))
+            this.DTO.amount += this.DTO.contents.find(element => element.id_product == productId).price
+        } else {
+            findItem.quantity++;
+            this.DTO.amount += findItem.price
+        }
+        this.render();
+    }
+
+    removeProduct(product) {
+        let productId = +product.dataset.id
+        let findItem = this.renderedItems.find(element => element.id_product == productId)
+        this.DTO.countProduct--
+        this.DTO.amount -= findItem.price
+        if (findItem.quantity > 1) {
+            findItem.quantity--
+        } else {
+            this.renderedItems.splice(this.renderedItems.indexOf(findItem), 1);
+            document.querySelector(`.cart-item[data-id="${productId}"]`).remove()
+        }
+        console.log(cart);
         this.render()
     }
-    
 }
+
 
 const lists = {
     ProductsList: Product,
@@ -130,52 +199,23 @@ let cart = new Cart()
 
 
 
-
-
-
-
-document.querySelector('.btn-cart').addEventListener('click', () => {
-    document.querySelector('.cart-block').classList.toggle('invisible');
-});
-
-document.querySelector('.products').addEventListener ('click', (evt) => {
-    if (evt.target.classList.contains ('buy-btn')) {
-        addProduct (evt.target);
-    }
-})
-
-
-//CART
-// Добавление продуктов в корзину
-function addProduct (product) {
-    let productId = +product.dataset['id'];
-    let find = userCart.find (element => element.id === productId);
-    if (!find) {
-        userCart.push ({
-            name: product.dataset ['name'],
-            id: productId,
-            img: cartImage,
-            price: +product.dataset['price'],
-            quantity: 1
-        })
-    }  else {
-        find.quantity++
-    }
-    renderCart ()
-}
-
-//удаление товаров
-function removeProduct (product) {
-    let productId = +product.dataset['id'];
-    let find = userCart.find (element => element.id === productId);
-    if (find.quantity > 1) {
-        find.quantity--;
-    } else {
-        userCart.splice(userCart.indexOf(find), 1);
-        document.querySelector(`.cart-item[data-id="${productId}"]`).remove()
-    }
-    renderCart ();
-}
-
-
-
+// ___________
+// class GoodsList {
+//     constructor() {
+//         this.goods = [];
+//         this.filteredGoods = [];
+//     }
+//     filterGoods(value) {
+//         const regexp = new RegExp(value, 'i');
+//         this.filteredGoods = this.goods.filter(good => regexp.test(good.product_name));
+//         this.render();
+//     }
+//     render() {
+//         let listHtml = '';
+//         this.filteredGoods.forEach(good => {
+//             const goodItem = new GoodsItem(good.product_name, good.price);
+//             listHtml += goodItem.render();
+//         });
+//         document.querySelector('.goods-list').innerHTML = listHtml;
+//     }
+// }
