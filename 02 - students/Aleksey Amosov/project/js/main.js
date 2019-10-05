@@ -1,43 +1,78 @@
+//заглушки (имитация базы данных)
 const image = 'https://placehold.it/200x150';
 const cartImage = 'https://placehold.it/100x80';
-const items = ['Шорты', 'Носки', 'Свитер', 'Ботинки', 'Футболка', 'Платье', 'Плавки', 'Шарф', 'Шапка', 'Сандали', 'Шляпа', 'Пальто', 'Майка', 'Пуховик'];
-const prices = [150, 50, 500, 1500, 150, 5000, 400, 800, 550, 1000, 1100, 10000, 150, 15000];
-const ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 , 13, 14];
+const API_URL = 'https://raw.githubusercontent.com/amsv/js-gb-second-18.09/master/02%20-%20students/Aleksey%20Amosov/project/js';
 
-//создание массива объектов - имитация загрузки данных с сервера
-function fetchData () {
-    let arr = [];
-    for (let i = 0; i < items.length; i++) {
-        arr.push (createProduct (i));
+class List {
+    //суперкласс для ProductsList и Cart
+    constructor (url, container) {
+        this.container = container
+        this.url = url
+        this.items = []
+        this.DTO = ''
+        this.renderedItems = []
+        this._init ()
     }
-    return arr;
-};
-
-//создание объекта товара
-function createProduct (i) {
-    return {
-        id: ids[i],
-        name: items[i],
-        price: prices[i],
-        img: image,
+    _init () {
+        return false
+    }
+    async getJSON (url) {
+        try {
+            this.items = await fetch (`${API_URL + this.url}`)
+                .then (data => data.json ()) 
+                .then (res => {
+                    this.DTO = res
+                    return res.contents ? this.items = res.contents : this.items = res
+                })
+        } 
+        catch (err) {
+            console.log (err)
+        }
+    }
+    render () {
+        const block = document.querySelector (this.container)
+        for (let item of this.items) {
+            let prod = new lists [this.constructor.name] (item)
+            this.renderedItems.push (prod)
+            block.insertAdjacentHTML ('beforeend', prod.render ())
+        }
+    }
+    filter () {
+        //потом
     }
 }
-let data = fetchData () //массив объектов для создания товаров
 
-function fetchProducts () {
-    let arr = [];
-    for (let i = 0; i < items.length; i++) {
-        arr.push (new Product (data [i]));
+class Item {
+    //суперкласс для ProductsItem и CartItem
+    constructor (el, img = 'https://placehold.it/200x150') {
+        this.product_name = el.product_name
+        this.price = el.price
+        this.id_product = el.id_product
+        this.img = img
     }
-    return arr;
+
+    render () {
+        return `<div class="product-item" data-id="${this.id_product}">
+                    <img src="${this.img}" alt="Some img">
+                    <div class="desc">
+                        <h3>${this.product_name}</h3>
+                        <p>${this.price} $</p>
+                        <button class="buy-btn" 
+                        data-id="${this.id_product}"
+                        data-name="${this.product_name}"
+                        data-image="${this.img}"
+                        data-price="${this.price}">Купить</button>
+                    </div>
+                </div>`
+    }
 }
 
 class Product {
     constructor (product) {
-        this.title = product.name,
+        this.title = product.product_name,
         this.price = product.price,
-        this.img = product.img,
-        this.id = product.id,
+        this.img = image,
+        this.id = product.id_product,
         this.template = `<div class="product-item" data-id="${this.id}">
                             <img src="${this.img}" alt="Some img">
                             <div class="desc">
@@ -56,33 +91,30 @@ class Product {
 class ProductsList {
     constructor () {
         this.products = [];
-        this.makeGETRequest ();
-        this._init ();
-        this.cart = new Cart();
-        this._render ();
+		this.fetchProducts();
     }
-    async makeGETRequest () {
-        try {
-            let a = await fetch ('https://raw.githubusercontent.com/amsv/js-gb-second-18.09/master/02%20-%20students/Aleksey%20Amosov/project/js/catalogData.json')
-                .then (d => d.json ())
-                .then (res => {
-                    data = res
-                    console.log(data)
-                })
-                .then (() => this._init ())
-                .then ( () => this._render ());
-        } 
-        catch (err) {
-            console.log ('somethig bad happened')
-        }
+	
+	async fetchProducts() {
+		try {
+			this.products = await fetch (`${API_URL}/catalogData.json`)
+				.then (data => data.json ())
+			this._init ();
+			this.cart = new Cart();
+			this._render ();
+		} 
+		catch (err) {
+			console.log (err)
+		}
+		finally {
+			console.log ('end of async')
+		}
     }
     
-    _init () {
-        this.products = fetchProducts ();
+    _init () {		
         document.querySelector ('.products').addEventListener ('click', (evt) => {
             if (evt.target.classList.contains ('buy-btn')) {
                 let productId = +evt.target.dataset['id'];
-                let find = this.products.find (element => element.id === productId);
+                let find = this.products.find (element => element.id_product === productId);
                 this.cart.addProduct (find);
             }
         })
@@ -91,7 +123,8 @@ class ProductsList {
     _render () {
         const block = document.querySelector ('.products');
         this.products.forEach ( product => {
-            block.innerHTML += product.template;
+			const goodItem = new Product(product);
+            block.innerHTML += goodItem.template;
         } )
     }
 }
@@ -103,18 +136,18 @@ class cartItem {
     }
 
     getTemplate () {
-        return `<div class="cart-item" data-id="${this.product.id}">
+        return `<div class="cart-item" data-id="${this.product.id_product}">
                     <div class="product-bio">
                         <img src="${cartImage}" alt="">
                         <div class="product-desc">
-                            <p class="product-title">${this.product.title}</p>
+                            <p class="product-title">${this.product.product_name}</p>
                             <p class="product-quantity">Кол-во: ${this.quantity}</p>
                             <p class="product-single-price">${this.product.price} руб. за ед.</p>
                         </div>
                     </div>
                     <div class="right-block">
                         <p class="product-price">${this.quantity * this.product.price}</p>
-                        <button class="del-btn" data-id="${this.product.id}">&times;</button>
+                        <button class="del-btn" data-id="${this.product.id_product}">&times;</button>
                     </div>
                 </div>`;
     }
@@ -151,7 +184,7 @@ class Cart {
     }
 
     addProduct (product) {
-        let find = this.cartItems.find (element => element.product.id === product.id);
+        let find = this.cartItems.find (element => element.product.id_product === product.id_product);
         if (find) {
             find.quantity++;
         } 
@@ -165,7 +198,7 @@ class Cart {
 
     removeProduct (product) {
         let productId = +product.dataset['id'];
-        let find = this.cartItems.find (element => element.product.id === productId);
+        let find = this.cartItems.find (element => element.product.id_product === productId);
         if (find.quantity > 1) {
             find.quantity--;
         } else {
@@ -177,4 +210,3 @@ class Cart {
 }
 
 let list = new ProductsList;
-//list.makeGETRequest ();
