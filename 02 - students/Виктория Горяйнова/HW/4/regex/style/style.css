@@ -169,17 +169,6 @@ img {
     border: none;
     border-bottom: 2px solid #fafafa;
 }
-
-.totalPrice {
-padding-left: 10px;
-}
-
-#check {
-    height: 1.5rem;
-    border-radius: 3px;
-    background-image: linear-gradient(to right, #1D976C 0%, #93F9B9 51%, #1D976C 100%);
-}
-
-#check:hover {
-    background-position: right center;
+.notValid {
+    border: 2px solid #ff0000;
 }

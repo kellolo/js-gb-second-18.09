@@ -7,24 +7,21 @@
     <title>eShop</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="script.js" defer></script>
 </head>
 
 <body>
-    <header>
-        <a class="brand" href="#">eShop</a>
-        <div class="cart">
-            <button class="cart-button btn btn_light" type="button">Корзина</button>
-            <div class="cart-list invisible">
-                <div class="cart-list__header"></div>
-                <div class="cart-list__content"></div>
-                <div class="cart-list__footer"></div>
-            </div>
-        </div>
-    </header>
-    <main>
-        <div class="goods-list"></div>
-    </main>
+    <div id="app">
+        <header>
+            <a class="brand" href="#">eShop</a>
+            <search-form :value.sync="filter"></search-form>
+            <cart :items="cart"></cart>
+        </header>
+        <main>
+            <goods-list :items="filteredCatalog"></goods-list>
+        </main>
+    </div>
 </body>
 
 </html>
