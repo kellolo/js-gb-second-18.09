@@ -19,6 +19,7 @@
                 </form>
                 <button class="btn-cart" type="button" @click="changeVisibleCart">Корзина</button>
                 <div class="cart-block" v-show="isVisibleCart">
+                    <div><p>Общая цена: {{ sumCarts }}</p><hr><div></div>
                     <div class="cart-item" data-id="${this.product.id_product}" v-for="cart of carts" :key="cart.id_product">
                         <div class="product-bio">
                             <img :src="cartImage" alt="">
@@ -37,8 +38,8 @@
             </div>
         </header>
         <main>
-            <div class="products">
-                <div class="product-item" :data-id="product.id_product" v-for="product of filteredGoods" :key="product.id_product">
+            <div class="products" v-if="!isProductsEmpty">
+                <div class="product-item" :data-id="product.id_product" v-for="product of filteredProducts" :key="product.id_product">
                     <img :src="image" alt="Some img">
                     <div class="desc">
                         <h3>{{ product.product_name }}</h3>
@@ -50,6 +51,9 @@
                         :data-price="product.price">Купить</button>
                     </div>
                 </div>
+            </div>
+            <div v-else>
+                <h2>Нет данных</h2>
             </div>
         </main>
     </div>
