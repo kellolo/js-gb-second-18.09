@@ -7,26 +7,51 @@
     <link rel="stylesheet" href="style/style.css">
 </head>
 <body>
+<div id="app">
     <header>
         <div class="logo">E-shop</div>
         <div class="cart">
             <form action="#" class="search-form">
-                <input type="text" class="search-field">
-                <button class="btn-search" type="submit">
+                <input type="text" class="search-field" v-model="searchLine">
+                <button class="btn-search"  @click="filterProducts">
                     <i class="fas fa-search"></i>
                 </button>
             </form>
-            <button class="btn-cart" type="button">Корзина</button>
-            <div class="cart-block invisible"></div>
+            <button class="btn-cart" type="button" @click="isVisibleCart = !isVisibleCart">Корзина</button>
+            <div class="cart-block" v-show="isVisibleCart">
+                <div class="cart-item" :data-id="product.id_product"  v-for="product of Cart" >
+                        <div class="product-bio">
+                            <img :src="imgCart" alt="Some image">
+                            <div class="product-desc">
+                                <p class="product-title">{{ product.product_name }}</p>
+                                <p class="product-quantity">Quantity: {{ product.quantity }}</p>
+                                <p class="product-single-price">$ {{ product.price }} each</p>
+                            </div>
+                        </div>
+                        <div class="right-block">
+                            <p class="product-price">{{ product.quantity * product.price }}</p>
+                            <button class="del-btn" :data-id="product.id_product" @click="clickDelBtn">&times;</button>
+                        </div>
+                    </div>
+                <div>Итого товаров в корзине на сумму: {{ totalCost }} $</div>
+            </div>
         </div>
     </header>
     <main>
-        <div class="products"></div>
+        <div class="products">
+                <div class="product-item" v-for="product of filteredProducts" :key="product.id_product">
+                    <img :src="imgProduct" alt="Some img">
+                    <div class="desc">
+                    <h3>{{ product.product_name }}</h3>
+                    <p>{{ product.price }} $</p>
+                    <button class="buy-btn" :data-id="product.id_product" :data-name="product.product_name" :data-price="product.price" @click="clickBuyBtn">Купить</button>
+                    </div>
+                </div>
+        </div>
     </main>
-
-
-
-    <script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
-    <script src="js/main.js"></script>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
+<script src="js/main.js"></script>
 </body>
 </html>
