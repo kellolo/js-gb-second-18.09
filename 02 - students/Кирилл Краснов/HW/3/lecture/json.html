@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let students = {
+            lera: {
+                age: 24,
+                group: 'js-2',
+            },
+            peta: {
+                age: 21,
+                group: 'js-1',
+            }
+        }
+
+        let studentsXML =`
+            <?xml webversion="0.1" encoding="UTF-8"?>
+            <students>
+                <lera age="24" group="js-2"></students>
+                <peta age="21" group="js-1"></students>
+            </students>`
+
+            //json
+        //     let students = {
+        //     "lera": {
+        //         "age": 24,
+        //         "group": "js-2",
+        //         "maried": true,
+        //     },
+        //     "peta": {
+        //         "age": 21,
+        //         "group": "js-1",
+        //         "maried": false,
+        //     }
+        // }
+
+
+        //перевод в json
+        let studentsJSON=JSON.stringify(students)
+        let studentsJS=JSON.parse(studentsJSON)
+    </script>
+</body>
+
+</html>
