@@ -41,7 +41,7 @@ h3 {
     margin: 5px;
 }
 
-#add-btn {
+.item-btn {
     align-self: flex-end;
 }
 

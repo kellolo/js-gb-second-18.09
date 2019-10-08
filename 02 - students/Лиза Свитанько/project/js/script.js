@@ -1,30 +1,55 @@
-const makeGETRequest = (url) => {
-    var xhr;
-
-    if (window.XMLHttpRequest) {
-        xhr = new XMLHttpRequest();
-    } else if (window.ActiveXObject) {
-        xhr = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-
-    return new Promise((resolve, reject) => {
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState !== 4) return;
-
-            if (xhr.readyState === 4) {
-                resolve(xhr.responseText);
-            } else {
-                reject(xhr.status);
-            }
-        }
-
-        xhr.open("GET", url, true);
-        xhr.send();
-    });
-}
-
 const API_URL = ".";
 
+const app = new Vue({
+    el: '#app',
+    data: {
+        goods: [],
+        filteredGoods: [],
+        cartGoods: [],
+        searchLine: '',
+        isVisibleCart: false,
+    },
+    methods: {
+        makeGETRequest(url, callback) {
+            var xhr;
+
+            if (window.XMLHttpRequest) {
+                xhr = new XMLHttpRequest();
+            } else if (window.ActiveXObject) {
+                xhr = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    callback(xhr.responseText);
+                }
+            }
+
+            xhr.open('GET', url, true);
+            xhr.send();
+        },
+        filterGoods(value) {
+            const regexp = new RegExp(value, 'i');
+            this.filteredGoods = this.goods.filter(good => regexp.test(good.product_name));
+        },
+        searchClickHandler() {
+            this.searchLine = document.getElementsByClassName("goods-search")[0].value;
+            this.filterGoods(this.searchLine);
+            this.isVisibleCart = false;
+        }
+    },
+    mounted() {
+        this.makeGETRequest(`${API_URL}/goods.json`, (goods) => {
+            this.goods = JSON.parse(goods);
+            this.filteredGoods = JSON.parse(goods);
+        });
+        this.makeGETRequest(`${API_URL}/cartGoods.json`, (cartGoods) => {
+            this.cartGoods = JSON.parse(cartGoods);
+        });
+    }
+});
+
+/*
 class GoodsItem {
     constructor(title = "Accessories", price = 250) {
         this.product_name = title;
@@ -123,35 +148,4 @@ searchButton.addEventListener('click', (e) => {
     const value = searchInput.value;
     list.filterGoods(value);
 });
-
-// Форма обратной связи
-
-var firstNameTextField = document.getElementById("firstName");
-var secondNameTextField = document.getElementById("secondName");
-var phoneTextField = document.getElementById("phone");
-var emailTextField = document.getElementById("email");
-var sendButton = document.getElementById("send-button");
-var errorResult = document.getElementById("error-msg");
-
-sendButton.addEventListener('click', (e) => {
-    var errorMessage = "";
-
-    if (!firstNameTextField.value.match(/^[A-Za-zА-Яа-я]+$/)) {
-        firstNameTextField.style.border = '1px solid red';
-        errorMessage = "<p style='color: red; font-size: 13px;'>Имя должно содержать только буквы</p>";
-    }
-    if (!secondNameTextField.value.match(/^[A-Za-zА-Яа-я]+$/)) {
-        secondNameTextField.style.border = '1px solid red';
-        errorMessage = "<p style='color: red; font-size: 13px;'>Имя должно содержать только буквы</p>";
-    }
-    // +7(000)000-0000
-    if (!phoneTextField.value.match(/^\+7\([0-9]{3}\)[0-9]{3}-[0-9]{4}$/)) {
-        phoneTextField.style.border = '1px solid red';
-        errorMessage += "<p style='color: red; font-size: 13px;'>Телефон должен иметь вид +7(000)000-0000</p>";
-    }
-    if (!emailTextField.value.match(/^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})$/)) {
-        emailTextField.style.border = '1px solid red';
-        errorMessage += "<p style='color: red; font-size: 13px;'>Email может содержать только точку или дефис и любые буквы</p>";
-    }
-    errorResult.innerHTML = errorMessage;
-});
+*/
