@@ -8,21 +8,16 @@ let app = new Vue ({
     el: '#app',
     data: {
         err: '',
-        filter: '',
-        openCart: true
+        openCart: false,
+        products: []
     },
     methods: {
         getData (url) {
             return fetch(`${API_URL + url}`)
-        },
-        filterCatalog () {
-            debugger;
-            const reg = new RegExp (this.filter, 'i')
-            this.$root.$refs.cata.filterCatalog(reg);
         }
     },
     async mounted () {
-        //this.$root.$on('AddProduct', this.AddProduct(id));
+        
     }
 })
 

@@ -11,14 +11,14 @@ Vue.component ('product-item', {
         // console.log (this)
     },
     template: `
-            <div class="product-item">
-                <img :src="img" alt="Some img">
-                <div class="desc">
-                    <h3> {{ product.name }} </h3>
-                    <p>{{ product.price }} $</p>
-                    <button class="buy-btn" @click="$parent.addProduct(product)">Купить</button>
-                </div>
+        <div class="product-item">
+            <img :src="img" alt="Some img">
+            <div class="desc">
+                <h3> {{ product.name }} </h3>
+                <p>{{ product.price }} $</p>
+                <button class="buy-btn" @click="$parent.addProduct(product)">Купить</button>
             </div>
+        </div>
     `
 })
 
@@ -28,7 +28,7 @@ Vue.component ('catalog', {
         return {
             image: 'https://placehold.it/200x150',
             filtered: [],
-            products: [],
+            
             //url: '/catalogData.json'
             url: '/goods.json'
         }
@@ -40,28 +40,27 @@ Vue.component ('catalog', {
             .then (data => data.json ())
         }
         catch (error) {
-            result = []
-            this.err = error
+            result = [];
+            this.$parent.err = error;
         }
         finally {
-            this.products = result
-            this.filtered = result
+            this.$parent.products = result;
+            this.filtered = result;
         }
+        this.$root.$on('filterCatalog', function (_filtered) {
+            this.$root.$refs.cata.filtered = _filtered;
+        });
     },
     methods: {
         addProduct (prod) {
             prod.quantity = typeof(prod.quantity) === 'undefined' ? 1 : ++prod.quantity;
-            let selectedProd = this.products.filter(el => typeof(el.quantity) != 'undefined' && el.quantity > 0);
-            this.$root.$emit('refreshCart', selectedProd);
+            this.$root.$emit('refreshCart');
         },
-        filterCatalog (reg) {
-            this.filtered = this.products.filter(el => reg.test (el.name))
-        }
     },
     template: `
-            <div class="products">
-                <product-item v-for="product of filtered" :key="product.id" :product="product" :img="image">
-                </product-item>
-            </div>
+        <div class="products">
+            <product-item v-for="product of filtered" :key="product.id" :product="product" :img="image">
+            </product-item>
+        </div>
     `
 })
