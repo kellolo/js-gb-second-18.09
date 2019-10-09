@@ -43,11 +43,9 @@ let app = new Vue ({
                 find.quantity++
             }
             else {
-                item.quantity = 1
-                this.cart_items.push(item)
+                let prod = Object.assign({quantity:  1}, item)
+                this.cart_items.push(prod)
             }
-            //нужно заново отрендерить разметку. Как это сделать с помощью Vue, не знаю
-
         },
         filterCatalog(){
             const reg = new RegExp(this.filter, 'i')            
