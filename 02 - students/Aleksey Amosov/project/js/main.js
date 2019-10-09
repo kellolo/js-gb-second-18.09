@@ -1,4 +1,49 @@
-//заглушки (имитация базы данных)
+const app = new Vue({
+    el: "#app",
+    data: {
+        products: [],
+        carts: [],
+        sumCarts: 0,
+        imgCatalog: 'https://placehold.it/200x150',
+        cartImage: 'https://placehold.it/100x80',
+        API_URL: 'https://raw.githubusercontent.com/amsv/js-gb-second-18.09/master/02%20-%20students/Aleksey%20Amosov/project/js',
+        isVisibleCart: false,
+        filteredProducts: [],
+        searchLine: ''
+    },
+    methods: {
+        changeVisibleCart() {
+            this.isVisibleCart = !this.isVisibleCart; 
+          },
+        filterGoods() {
+        const regexp = new RegExp(this.searchLine, 'i');
+        this.filteredProducts = this.products.filter(good => {  
+            return regexp.test(good.product_name); 
+        })
+        console.log(this.searchLine);
+        }  
+    },
+    computed: {
+        isProductsEmpty() {
+            return this.filteredProducts.length === 0;
+        }
+    },
+    async mounted() {
+        const goods = await fetch(`${this.API_URL}/catalogData.json`)
+        .then (data => data.json ())
+        this.carts = await fetch(`${this.API_URL}/getBasket.json`)
+        .then (data => data.json ())
+
+        this.sumCarts = this.carts.reduce(function(sum, current) {
+            return sum + current.quantity * current.price;
+            }, 0)
+   
+        this.products = goods;
+        this.filteredProducts = goods;
+    }
+  });
+  
+  //заглушки (имитация базы данных)
 /* const image = 'https://placehold.it/200x150';
 const cartImage = 'https://placehold.it/100x80';
 const API_URL = 'https://raw.githubusercontent.com/amsv/js-gb-second-18.09/master/02%20-%20students/Aleksey%20Amosov/project/js';
@@ -147,49 +192,3 @@ class Cart {
  */
 //let list = new ProductsList;
 
-const app = new Vue({
-    el: "#app",
-    data: {
-        products: [],
-        carts: [],
-        sumCarts: 0,
-        image: 'https://placehold.it/200x150',
-        cartImage: 'https://placehold.it/100x80',
-        API_URL: 'https://raw.githubusercontent.com/amsv/js-gb-second-18.09/master/02%20-%20students/Aleksey%20Amosov/project/js',
-        isVisibleCart: false,
-        filteredProducts: [],
-        searchLine: ''
-    },
-    methods: {
-        changeVisibleCart() {
-            this.isVisibleCart = !this.isVisibleCart; 
-          },
-        filterGoods() {
-        const regexp = new RegExp(this.searchLine, 'i');
-        this.filteredProducts = this.products.filter(good => {  
-            return regexp.test(good.product_name); 
-        })
-        console.log(this.searchLine);
-        }  
-    },
-    computed: {
-        isProductsEmpty() {
-            return this.filteredProducts.length === 0;
-        }
-    },
-    async mounted() {
-        const goods = await fetch(`${this.API_URL}/catalogData.json`)
-        .then (data => data.json ())
-        this.carts = await fetch(`${this.API_URL}/getBasket.json`)
-        .then (data => data.json ())
-
-        this.sumCarts = await fetch(`${this.API_URL}/getBasket.json`)
-        .then (data => data.json ())
-        .then( res => this.sumCarts = res.reduce(function(sum, current) {
-        return sum + current.quantity * current.price;
-        }, 0)) 
-        
-        this.products = goods;
-        this.filteredProducts = goods;
-    }
-  });

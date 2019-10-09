@@ -10,17 +10,18 @@
     <div id="app">
         <header>
             <div class="logo">E-shop</div>
-            <div class="cart">
                 <form action="#" class="search-form">
                     <input type="text" class="search-field" v-model="searchLine">
                     <button class="btn-search" type="submit" @click="filterGoods">
                         <i class="fas fa-search"></i>
                     </button>
-                </form>
+                </form>			
+            <div class="cart">
+
                 <button class="btn-cart" type="button" @click="changeVisibleCart">Корзина</button>
                 <div class="cart-block" v-show="isVisibleCart">
                     <div><p>Общая цена: {{ sumCarts }}</p><hr><div></div>
-                    <div class="cart-item" data-id="${this.product.id_product}" v-for="cart of carts" :key="cart.id_product">
+                    <div class="cart-item" v-for="cart of carts" :key="cart.id_product">
                         <div class="product-bio">
                             <img :src="cartImage" alt="">
                             <div class="product-desc">
@@ -31,7 +32,7 @@
                         </div>
                         <div class="right-block">
                             <p class="product-price">{{ cart.quantity * cart.price }}</p>
-                            <button class="del-btn" data-id="${this.product.id_product}">&times;</button>
+                            <button class="del-btn" :data-id="cart.id_product">&times;</button>
                         </div>
                     </div>
                 </div>
@@ -40,14 +41,14 @@
         <main>
             <div class="products" v-if="!isProductsEmpty">
                 <div class="product-item" :data-id="product.id_product" v-for="product of filteredProducts" :key="product.id_product">
-                    <img :src="image" alt="Some img">
+                    <img :src="imgCatalog" alt="Some img">
                     <div class="desc">
                         <h3>{{ product.product_name }}</h3>
                         <p>{{ product.price }} руб.</p>
                         <button class="buy-btn" 
                         :data-id="product.id_product"
                         :data-name="product.product_name"
-                        :data-image="image"
+                        :data-image="imgCatalog"
                         :data-price="product.price">Купить</button>
                     </div>
                 </div>
