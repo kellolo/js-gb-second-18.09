@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            width: 40%;
+            margin: 0 auto
+        }
+        .post {
+            border-radius: 5px;
+            border: 2px solid grey;
+            padding: 15px;
+            margin-bottom: 10px
+        }
+        .post-footer {
+            text-align: right
+        }
+        .font-it {
+            font-style: italic
+        }
+    </style>
+</head>
+<body>
+    <h1>POWERED BY VUE</h1>
+    <div id="app">
+        <div class="container">
+            <div class="post" v-for="post of arr" :key="post.postId">
+                <div class="user">
+                    <h4 :style="vuestyle">{{ post.name }}</h4>
+                </div>
+                <div class="post-body">
+                    <p> {{ post.body }} </p>
+                </div>
+                <div class="post-footer">
+                    <a href="#" class="email"> {{ post.email }} </a>
+                </div>
+            </div>
+        </div>
+        <!-- <button v-on:click="trigger = !trigger">trigger change</button> -->
+        <!-- <button @click="methodChangeTrigger">trigger change</button>
+        <input type="text" v-model.lazy="text"> -->
+
+        <button @click="toggled = !toggled">{{ toggleComp }}</button>
+        <br>
+        <h5 v-if="toggled">toggled</h5>
+        <h5 v-else>not toggled</h5>
+        <p v-show="toggled">not hidden</p>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        let app = new Vue ({
+            el: '#app',
+            //////////////////////////////////////
+            data: {
+                //данные, создаваемые внутри компонента
+                toggled: true,
+                name: 'John Doe',
+                //text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet modi eum vel facere non optio earum, deleniti dolorum perspiciatis in similique a quisquam autem, quidem quibusdam nihil',
+                email: 'jonhy-doe@jd.org',
+                vuestyle: {color: "red"},
+                trigger: false,
+                text: '',
+                arrJSON: [
+                            {
+                                "postId": 1,
+                                "id": 1,
+                                "name": "id labore ex et quam laborum",
+                                "email": "Eliseo@gardner.biz",
+                                "body": "laudantium enim quasi est quidem magnam voluptate ipsam eos\ntempora quo necessitatibus\ndolor quam autem quasi\nreiciendis et nam sapiente accusantium"
+                            },
+                            {
+                                "postId": 1,
+                                "id": 2,
+                                "name": "quo vero reiciendis velit similique earum",
+                                "email": "Jayne_Kuhic@sydney.com",
+                                "body": "est natus enim nihil est dolore omnis voluptatem numquam\net omnis occaecati quod ullam at\nvoluptatem error expedita pariatur\nnihil sint nostrum voluptatem reiciendis et"
+                            }
+                        ],
+                arr: null,
+                limit: 5  
+            },
+            computed: {
+                toggleComp () {
+                    return this.toggled ? 'toggled' : 'not togled'
+                }
+                //типа-функции (функции, возвращающие простые значения)
+                // calcClass () {
+                //     /////
+                //     return this.trigger ? 'font-it' : ''
+                // }
+            },
+            methods: {
+                //функции-методы
+                // methodChangeTrigger () {
+                //     this.trigger = !this.trigger
+                // }
+            }, 
+            //ХУКИ (события, на которые завязан цикл жизни компонента)
+            async mounted () {
+                //this.arr = JSON.parse (this.arrJSON)
+                this.arr = await fetch(`https://jsonplaceholder.typicode.com/comments?_limit=${this.limit}`)
+                    .then (data => data.json ())
+            }
+        })
+    </script>
+</body>
+</html>

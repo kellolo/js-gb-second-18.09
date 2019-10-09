@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        let str = 'lol maMa AmA regular'
+        
+        let reg = new RegExp ('ama', 'i') // 'ama' - искомые символы 'i' - "флаг"
+
+        // поиск (есть/нет)
+        // .search
+
+        //console.log (str.search (reg))
+        console.log (str.search (/ama/i))
+
+        // поиск вхождений
+        //.match ()
+
+        console.log (str.match (/ama/ig))
+
+        // замена
+        //console.log ('+7 (000)000-00-00'.replace ('-', ':'))
+        //console.log ('+7 (000)000-00-00'.replace (/-/g, ':'))
+        console.log ('+7 (000)000-00-00'.replace (/\d/g, 'A'))
+    </script>
+</body>
+</html>
