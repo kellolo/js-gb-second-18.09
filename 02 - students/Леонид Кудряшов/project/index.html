@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Интернет-магазин</title>
+    <link rel="stylesheet" href="style/normalize.css">
+    <link rel="stylesheet" href="style/style.css">
+</head>
+
+<body>
+    <div id="app">
+        <header>
+            <div class="logo">E-shop</div>
+            <div class="cart">
+                <form action="#" class="search-form" @submit.prevent="filterCatalog">
+                    <input type="text" class="search-field" v-model.lazy="filter">
+                    <button class="btn-search" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                </form>
+                <button class="btn-cart" type="button" @click="toggled = !toggled">Корзина</button>
+                <div class="cart-block" v-show="toggled">
+                    <div class="cart_block_on" v-for="goods of cartItems" :key="goods.id_product">
+                        <h3> {{ goods.product_name }} </h3>
+                        <p> {{ goods.price }} $</p>
+                        <!-- <p> {{ goods.quantity }}</p> -->
+                        <button class="btn_remove" @click="removeProduct (goods)">удалить</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main>
+            <div class="products">
+                <div class="product-item" v-for="product of filtered" :key="product.id_product">
+                    <img :src="imgCatalog" alt="Some img">
+                    <div class="desc">
+                        <h3> {{ product.product_name }} </h3>
+                        <p>{{ product.price }} $</p>
+                        <button class="buy-btn" @click="addProduct (product)">Купить</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
