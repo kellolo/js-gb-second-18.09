@@ -10,21 +10,17 @@
     <div id="app">
         <header>
             <div class="logo">E-shop</div>
-                <form action="#" class="search-form" @submit.prevent="inputsearchLine">
-                    <input type="text" class="search-field" v-model.lazy="searchLine">
-                    <button class="btn-search" type="submit">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </form>            
-            <carts></carts>
+            <filtered-comp></filtered-comp>
+            <cart ref="cart"></cart>
         </header>
         <main>
-            <catalog :search="searchLine" ref="cata">          
-            </catalog> 
+            <catalog ref="products"></catalog> 
         </main>
     </div>
     <script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="js/cartComp.js"></script>
+    <script src="js/filteredComp.js"></script>
     <script src="js/catalog.js"></script>
     <script src="js/main.js"></script>
 </body>
