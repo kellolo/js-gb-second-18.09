@@ -17,7 +17,7 @@ header {
 }
 
 .notify-container {
-	position: absolute;
+	position: fixed;
 	width: 300px;
 	bottom: 0;
 	right: 0;
@@ -194,6 +194,9 @@ header {
 	border-radius: 5px;
 	box-shadow: 0 0 2px 0 rgba(0,0,0,30%);
 	overflow: hidden;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
 }
 
 .goods-item__img {
@@ -201,20 +204,26 @@ header {
 	height: auto;
 }
 
+/*
 .goods-item__block {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	padding: 20px;
 }
+*/
 
 .goods-item__title {
+	display: block;
+	padding: 10px 20px;
 	margin: 0;
 }
 
 .goods-item__price {
-	margin-top: 10px;
+	display: block;
+	padding: 10px 20px;
 	font-size: 2rem;
+	margin: auto 0;
 }
 
 .goods-item__btn {

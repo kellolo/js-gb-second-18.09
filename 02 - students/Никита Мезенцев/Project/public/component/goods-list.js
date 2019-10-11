@@ -1,4 +1,9 @@
-Vue.component('goods-list', {
+import goodsItem from './goods-item.js'
+
+export default {
+    components: {
+        'goods-item': goodsItem
+    },
     computed: {
         ...Vuex.mapGetters({
             catalog: 'filteredCatalog'
@@ -11,6 +16,6 @@ Vue.component('goods-list', {
         this.fetchCatalog()
     },
     template: `<div class="goods-list">
-                        <goods-item v-for="item of catalog" :key="item.id_product" :item="item"/>
+                        <goods-item v-for="item of catalog" :key="item.id" :item="item"/>
                     </div>`
-})
+}

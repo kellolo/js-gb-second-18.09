@@ -131,10 +131,4 @@ NotifyPlugin.install = function(Vue, options = {}) {
     }
 }
 
-Vue.use(NotifyPlugin, {
-    // infinite: true,
-    // duration: 2,
-    error: true,
-    // async: true,
-    // success: true,
-})
+export default NotifyPlugin

@@ -1,3 +1,5 @@
+import db from './db.js'
+
 const store = new Vuex.Store({
     state: {
         catalog: [],
@@ -7,7 +9,7 @@ const store = new Vuex.Store({
     getters: {
         filteredCatalog (state) {
             const regex = new RegExp(state.filter, 'i')
-            return state.catalog.filter(i => regex.test(i.product_name))
+            return state.catalog.filter(i => regex.test(i.title))
         },
         cart (state) {
             return state.cart
@@ -17,23 +19,17 @@ const store = new Vuex.Store({
         }
     },
     mutations: {
-        mergeToCatalog (state, items = []) {
-            state.catalog = [
-                ...state.catalog,
-                ...items
-            ]
+        setCatalog (state, items = []) {
+            state.catalog = items
         },
-        mergeToCart (state, items = []) {
-            state.cart = [
-                ...state.cart,
-                ...items
-            ]
+        setCart (state, items = []) {
+            state.cart = items
         },
         setFilter (state, value = '') {
             state.filter = value || ''
         },
         addCartProduct (state, product) {
-            const _product = state.cart.find(i => i.id_product === product.id_product)
+            const _product = state.cart.find(i => i.id === product.id)
             if (_product){
                 _product.inc()
             }else{
@@ -41,11 +37,11 @@ const store = new Vuex.Store({
             }
         },
         removeCartProduct (state, product) {
-            const _product = state.cart.find(i => i.id_product === product.id_product)
+            const _product = state.cart.find(i => i.id === product.id)
             if (_product) {
                 _product.dec()
                 if (_product.quantity <= 0) {
-                    state.cart = state.cart.filter(i => i.id_product !== product.id_product)
+                    state.cart = state.cart.filter(i => i.id !== product.id)
                 }
             }
         }
@@ -59,7 +55,7 @@ const store = new Vuex.Store({
                             success: true,
                             async: true,
                         })
-                        .then(catalog => context.commit('mergeToCatalog', catalog))
+                        .then(catalog => context.commit('setCatalog', catalog))
                         .catch( err => console.log('Ошибка при загрузке каталога ', err ))
         },
         fetchCart (context) {
@@ -70,7 +66,7 @@ const store = new Vuex.Store({
                             success: true,
                             async: true,
                         })
-                        .then( cart => context.commit('mergeToCart', cart.contents))
+                        .then( cart => context.commit('setCart', cart.contents))
                         .catch( err => console.log('Ошибка при загрузке корзины ', err ))
         },
         buy (context, product) {
@@ -93,3 +89,5 @@ const store = new Vuex.Store({
         },
     }
 })
+
+export default store
