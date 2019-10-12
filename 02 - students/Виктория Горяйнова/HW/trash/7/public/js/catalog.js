@@ -30,7 +30,7 @@ Vue.component ('catalog', {
             filtered: [],
             
             //url: '/catalogData.json'
-            url: '/goods.json'
+            url: '/api/products'
         }
     },
     async mounted () {
