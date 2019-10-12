@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -13,5 +14,15 @@
     "webpack": "^4.40.2",
     "webpack-cli": "^3.3.9"
   },
-  "private": true
+  "private": true,
+  "dependencies": {
+    "express": "^4.17.1",
+    "moment": "^2.24.0",
+    "nodemon": "^1.19.3"
+  },
+  "nodemonConfig": {
+    "ignore": "*.json",
+    "watch": "server/*",
+    "exec": "js"
+  }
 }
