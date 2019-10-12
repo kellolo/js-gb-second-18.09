@@ -33,12 +33,7 @@ button:focus{
 .btn-cart, .logo{
     align-self: center;
 }
-/*.products {*/
-/*display: flex;*/
-/*justify-content: space-between;*/
-/*flex-wrap: wrap;*/
-/*padding: 40px 80px;*/
-/*}*/
+
 .products{
     column-gap: 30px;
     display: grid;
@@ -68,6 +63,7 @@ img {
 }
 .cart{
     position: relative;
+    display: flex;
 }
 .cart-block{
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.62);
@@ -81,7 +77,6 @@ img {
     color: black;
     width: 300px;
 }
-
 .invisible{
     display: none;
 }
@@ -154,15 +149,15 @@ img {
 }
 .search-form{
     position: relative;
-    margin-right: 50px;
-    display: inline-block;
+    
+    
 }
 .search-field:focus{
     outline: none;
 }
 .search-field {
     box-sizing: border-box;
-    width: 200px;
+    width: 400px;
     color: #fafafa;
     padding: 10px;
     background-color: transparent;
