@@ -1,0 +1,12 @@
+[
+  {
+    "id_product": 256,
+    "product_name": "Монитор",
+    "price": 30000
+  },
+  {
+    "id_product": 134,
+    "product_name": "Коврик для мыши",
+    "price": 500
+  }
+]
