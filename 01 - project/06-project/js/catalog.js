@@ -50,6 +50,9 @@ Vue.component ('catalog', {
     methods: {
         addProduct (item) {
             console.log (item.id_product)
+        },
+        helloFromBeyond () {
+            alert ('hi')
         }
     },
     template: `
