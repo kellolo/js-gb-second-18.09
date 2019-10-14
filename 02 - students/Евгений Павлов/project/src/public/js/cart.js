@@ -1,4 +1,21 @@
-Vue.component('cart', {
+let cartItem = {
+    props: ['cartItem', 'img'],
+    template: `<div class="cart-item" >
+                    <div class="product-bio">
+                        <img :src="img" alt="Some image">
+                        <div class="product-desc">
+                            <p class="product-title">{{cartItem.product_name}}</p>
+                            <p class="product-quantity">Quantity: {{cartItem.quantity}}</p>
+                            <p class="product-single-price">$ {{cartItem.price}} each</p>
+                        </div>
+                    </div>
+                    <div class="right-block">
+                        <p class="product-price">{{cartItem.quantity*cartItem.price}}</p>
+                        <button class="del-btn" @click="$parent.removeProduct(cartItem)">&times;</button>
+                    </div>
+                </div>`
+}
+let cart = {
             data() {
                 return {
                     cartItems: [],
@@ -7,8 +24,8 @@ Vue.component('cart', {
                     showCart: false
                 }
             },
-            async mounted() {
-                await this.$parent.getJson(`/api/cart`)
+            mounted() {
+                this.$parent.getJson(`/api/cart`)
                     .then(data => {
                         for (let el of data.contents) {
                             this.cartItems.push(el);
@@ -72,22 +89,10 @@ Vue.component('cart', {
                     <p v-if="!cartItems.length">Ваша корзина пуста</p>
                     <cart-item v-for="product of cartItems" :key="product.id_product" :img="imgCart":cart-item="product"></cart-item>
                 </div>
-            </div>`
-});
-Vue.component('cart-item', {
-    props: ['cartItem', 'img'],
-    template: `<div class="cart-item" >
-                    <div class="product-bio">
-                        <img :src="img" alt="Some image">
-                        <div class="product-desc">
-                            <p class="product-title">{{cartItem.product_name}}</p>
-                            <p class="product-quantity">Quantity: {{cartItem.quantity}}</p>
-                            <p class="product-single-price">$ {{cartItem.price}} each</p>
-                        </div>
-                    </div>
-                    <div class="right-block">
-                        <p class="product-price">{{cartItem.quantity*cartItem.price}}</p>
-                        <button class="del-btn" @click="$parent.removeProduct(cartItem)">&times;</button>
-                    </div>
-                </div>`
-})
+            </div>`,
+            components: {
+                'cart-item' : cartItem
+            }
+}
+
+export default cart

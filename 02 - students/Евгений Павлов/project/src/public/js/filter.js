@@ -1,4 +1,4 @@
-Vue.component ('filter-block', {
+let filterblock = {
     data () {
         return {
             userSearch: ''
@@ -12,4 +12,6 @@ Vue.component ('filter-block', {
             </button>
         </form>
     `
-});
+}
+
+export default filterblock
