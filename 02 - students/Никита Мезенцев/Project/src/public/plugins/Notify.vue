@@ -1,4 +1,24 @@
-const Notify = Vue.extend({
+<template>
+    <div class='notify-wrapper'>
+        <div class='notify' v-bind:class='["notify-"+type]' @mouseover='pauseTimer' @mouseleave='resumeTimer'>
+            <div class='notify-header'>
+                <div class='notify-timer' v-if="!infinite">
+                    <div class='notify-timer-value'>
+                    </div>
+                </div>
+            </div>
+            <div class='notify-content'>
+                <div class='notify-msg'>{{ msg }}</div>
+                <button class='notify-btn' @click="animateOut">X</button>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import TimelineLite from 'gsap/TimelineLite'
+
+export default {
     props: ['msg', 'type', 'infinite', 'duration', 'action'],
     data: () => {
         return {
@@ -6,21 +26,6 @@ const Notify = Vue.extend({
             closing: false,
         }
     },
-    template: `
-        <div class='notify-wrapper'>
-            <div class='notify' v-bind:class='["notify-"+type]' @mouseover='pauseTimer' @mouseleave='resumeTimer'>
-                <div class='notify-header'>
-                    <div class='notify-timer' v-if="!infinite">
-                        <div class='notify-timer-value'>
-                        </div>
-                    </div>
-                </div>
-                <div class='notify-content'>
-                    <div class='notify-msg'>{{ msg }}</div>
-                    <button class='notify-btn' @click="animateOut">X</button>
-                </div>
-            </div>
-        </div>`,
     methods: {
         getContainer () {
             let container = document.querySelector('.notify-container')
@@ -38,14 +43,18 @@ const Notify = Vue.extend({
             this.timer && this.timer.resume()
         },
         animateIn () {
-            const tl = new TimelineLite()
+            const tl = new TimelineLite({})
             tl.from(this.$el, 1, {
                 opacity: 0,
                 x: 10,
                 onComplete: () => {
                     if (this.infinity || this.type === 'async') return
                     this.timer = new TimelineLite()
-                    this.timer.to(this.$el.querySelector('.notify-timer-value'), this.duration || 3, {
+                    const t =this.$el.querySelector('.notify-timer-value')
+                    if (!t) {
+                        console.log(this.$el, 'null timer')
+                    }
+                    this.timer.to(t, this.duration || 3, {
                         width: '100%',
                         onComplete: () => {
                             this.animateOut()
@@ -58,7 +67,7 @@ const Notify = Vue.extend({
             if (this.isClosing)  return
             this.isClosing = true
             const container = this.getContainer()
-            const tl = new TimelineLite()
+            const tl = new TimelineLite({})
             tl.to(this.$el, .5, {
                 opacity: 0,
                 x: 10,
@@ -82,53 +91,95 @@ const Notify = Vue.extend({
     mounted() {
         this.animateIn()
     }
-})
+}
+</script>
 
-const NotifyPlugin = {}
-NotifyPlugin.install = function(Vue, options = {}) {
-    function createNotify (msg, type = 'default', cfg = {}) {
-        const conf = {...options, ...cfg}
-        if (!conf[type]) return
-        return new Notify({
-            el: document.createElement('div'),
-            propsData: {
-                msg,
-                type,
-                ...conf
-            }
-        })
-    }
-    Vue.prototype.$notify = {
-        new: function(msg, type = 'default', cfg) {
-            createNotify(msg, type, cfg)
-        },
-        error: function(msg, cfg) {
-            createNotify(msg, 'error', cfg)
-        },
-        success: function(msg, cfg) {
-            createNotify(msg, 'success', cfg)
-        },
-        warn: function(msg, cfg) {
-            createNotify(msg, 'warn', cfg)
-        },
-        info: function(msg, cfg) {
-            createNotify(msg, 'info', cfg)
-        },
-        async: function(msg, cfg) {
-            const component = createNotify(msg, 'async', cfg)
-            return new Promise( (resolve, reject) => {
-                cfg.action().then( pkg => {
-                    component && component.animateOut()
-                    createNotify(cfg.success_msg, 'success', cfg)
-                    resolve(pkg)
-                } ).catch ( pkg => {
-                    component && component.animateOut()
-                    createNotify(cfg.error_msg, 'error', cfg)
-                    reject(pkg)
-                })
-            })
-        }
-    }
+<style>
+
+.notify-container {
+    position: fixed;
+    width: 300px;
+    bottom: 0;
+    right: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column-reverse;
 }
 
-export default NotifyPlugin
+.notify-wrapper {
+    padding: 10px 20px;
+}
+
+.notify {
+    background-color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 0 5px 0 hsla(0, 0%, 0%, 30%);
+}
+
+.notify-error {
+    background-color: hsl(0, 90%, 90%);
+    color: hsl(0, 60%, 40%);
+}
+
+.notify-warn {
+    background-color: hsl(50, 90%, 90%);
+    color: hsl(50, 60%, 40%);
+}
+
+.notify-success {
+    background-color: hsl(100, 90%, 90%);
+    color: hsl(100, 60%, 40%);
+}
+
+.notify-info {
+    background-color: hsl(200, 90%, 90%);
+    color: hsl(200, 60%, 40%);
+}
+
+.notify-content {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.notify-timer {
+    display: block;
+    height: 5px;
+    width: 100%;
+    background-color: hsla(0,0%,0%,10%);
+    position: relative;
+}
+
+.notify-timer-value {
+    width: 0;
+    height: 100%;
+    background-color: hsla(0,0%,0%,20%);
+    background-color: currentColor;
+}
+
+@keyframes async-timer {
+    0% {
+        left: 0;
+    }
+    50% {
+        left: 90%;
+    }
+    100% {
+        left: 0;
+    }
+}
+.notify-async .notify-timer-value {
+    position: absolute;
+    width: 10%;
+    top: 0;
+    left: 0;
+    animation: async-timer 1s infinite;
+}
+
+.notify-btn {
+    border: none;
+    background-color: transparent;
+    color: inherit;
+}
+</style>

@@ -35,14 +35,12 @@ class DB {
         this.url = 'http://localhost:3000/api'
     }
     async getAll() {
-        // await sleep(2000)
         return fetch(this.url + '/catalog')
             .then(res => res.ok && res || Promise.reject('Сервер вернул ошибку ' + res.status))
             .then(res => res.json())
             .then(data => data.map(i => new CatalogProduct(i)))
     }
     async getCart() {
-        // await sleep(1500)
         return fetch(this.url + '/cart')
             .then(res => res.ok && res || Promise.reject('Сервер вернул ошибку ' + res.status))
             .then(res => res.json())

@@ -1,6 +1,6 @@
 import db from './db.js'
 
-const store = new Vuex.Store({
+const store = {
     state: {
         catalog: [],
         cart: [],
@@ -88,6 +88,6 @@ const store = new Vuex.Store({
                         .catch( err => console.log('Ошибка при удалении продукта из корзины', err ))
         },
     }
-})
+}
 
 export default store
