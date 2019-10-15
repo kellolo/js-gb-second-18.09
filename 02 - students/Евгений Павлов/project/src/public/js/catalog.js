@@ -1,4 +1,26 @@
-Vue.component ('catalog', {
+let productItem = {
+    props: [
+        'product', 'img'
+    ],
+    data () {
+        return {
+
+        }
+    },
+    mounted () {},
+    template: `
+                    <div class="product-item">
+                        <img :src="img" alt="Some img">
+                        <div class="desc">
+                            <h3> {{ product.product_name }} </h3>
+                            <p>{{ product.price }} $</p>
+                            <button class="buy-btn" @click="$root.$refs.cart.addProduct (product)">Купить</button>
+                        </div>
+                    </div>
+    `
+}
+
+let catalog = {
     props: [],
     data () {
         return {
@@ -27,29 +49,11 @@ Vue.component ('catalog', {
                 <div class="products">
                     <product-item v-for="product of filtered" :key="product.id_product" :product="product" :img="image">
                     </product-item>
-                </div>
-    `
-})
+                </div> `,
+    components :{
+            'product-item': productItem
+                }
+}
 
-Vue.component ('product-item', {
-    props: [
-        'product', 'img'
-    ],
-    data () {
-        return {
-
-        }
-    },
-    mounted () {},
-    template: `
-                    <div class="product-item">
-                        <img :src="img" alt="Some img">
-                        <div class="desc">
-                            <h3> {{ product.product_name }} </h3>
-                            <p>{{ product.price }} $</p>
-                            <button class="buy-btn" @click="$root.$refs.cart.addProduct (product)">Купить</button>
-                        </div>
-                    </div>
-    `
-})
+export default catalog
 

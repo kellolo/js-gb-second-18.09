@@ -1,6 +1,10 @@
+import cart from './cart'
+import catalog from './catalog'
+import filterblock from './filter'
+import error from './error'
 const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
-let app = new Vue({
+let app = {
     el: '#app',
     methods: {
         getJson(url){
@@ -53,5 +57,12 @@ let app = new Vue({
                     console.log(error)
                 })
         },
+    },
+
+    components: {
+        catalog, cart, filterblock, error
     }
-})
+}
+
+export default app
+
