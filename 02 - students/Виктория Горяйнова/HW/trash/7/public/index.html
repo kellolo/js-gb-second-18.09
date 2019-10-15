@@ -17,7 +17,7 @@
             </div>
         </header>
         <main>
-            <error-block v-if="err != ''" :err="err"></error-block>
+            <error-block ref="error" v-if="err != ''" :err="err"></error-block>
             <catalog v-else ref="cata"></catalog>
         </main>
         

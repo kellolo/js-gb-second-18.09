@@ -1,0 +1,22 @@
+{
+    "amount": 42,
+    "countGoods": 1,
+    "contents": [
+        {
+            "name": "USB-camera",
+            "price": 18,
+            "img": "https://placehold.it/200x150",
+            "id": 7,
+            "quantity": 2,
+            "template": "<div class=\"product-item\" data-id=\"${this.id}\">\n                            <img src=\"${this.img}\" alt=\"Some img\">\n                            <div class=\"desc\">\n                                <h3>${this.title}</h3>\n                                <p>${this.price} $</p>\n                                <button class=\"buy-btn\" \n                                data-id=\"${this.id}\"\n                                data-name=\"${this.title}\"\n                                data-image=\"${this.img}\"\n                                data-price=\"${this.price}\">Купить</button>\n                            </div>\n                        </div>"
+          },
+          {
+            "name": "Gamepad",
+            "price": 24,
+            "img": "https://placehold.it/200x150",
+            "id": 8,
+            "quantity": 1,
+            "template": "<div class=\"product-item\" data-id=\"${this.id}\">\n                            <img src=\"${this.img}\" alt=\"Some img\">\n                            <div class=\"desc\">\n                                <h3>${this.title}</h3>\n                                <p>${this.price} $</p>\n                                <button class=\"buy-btn\" \n                                data-id=\"${this.id}\"\n                                data-name=\"${this.title}\"\n                                data-image=\"${this.img}\"\n                                data-price=\"${this.price}\">Купить</button>\n                            </div>\n                        </div>"
+          }
+    ]
+}

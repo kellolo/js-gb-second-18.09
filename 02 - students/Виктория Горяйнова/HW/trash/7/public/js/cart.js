@@ -51,6 +51,26 @@ Vue.component ('cart-block', {
         outFromCart (product) {
             --product.quantity;
             this.refreshCart();
+        },
+        addProduct(product) {
+            let find = this.selected.find(el => el.id === product.id);
+            if (find) {
+                this.$parent.putJson('/api/cart/' + find.id, {quantity: 1})
+                .then(data => {
+                    if (data.result) {
+                        find.quantity++;
+                    }
+                });
+            } else {
+                let prod = Object.assign({quantity: 1}, product);
+                this.$parent.postJson('/api/cart/', product)
+                    .then(data => {
+                        if (data.result) {
+                            this.selected.push(prod);
+                        }
+                    })
+            }
+
         }
     },
 })
