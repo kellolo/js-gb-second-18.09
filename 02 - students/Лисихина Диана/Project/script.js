@@ -78,26 +78,8 @@ class ProductsList {
     }
 }
 
-//общая сумма
-totalPrice() {
-    let total = 0
-    const block = document.querySelector('.products')
-        //totalBlock=document.createElement()
-    this.products.forEach(product => {
-        total += product.price
-    })
-    totalDiv = document.createElement("DIV")
-        (block.parentNode).insertBefore(totalDiv,
-            totalDiv.innerHTML =
-            `<h4>Итого на сумму: ${total} $</h4>        
-         </div>
-        `)
-}
-}
-
 let list = new ProductsList;
 list.render();
-list.totalPrice();
 
 class CartItem {
     constructor(product) {
@@ -132,18 +114,17 @@ class Cart {
 
     //назначаем обработчики событый на кнопки корзины
     _init() {
-            document.querySelector('.btn-cart').addEventListener('click', () => {
-                document.querySelector('.cart-block').classList.toggle('invisible')
-            });
-            //используем делегирование при обработки события клик по кнопке "удалить товар"
-            //вешать обработчик на каждую кнопку "удалить товар" нерационально
-            document.querySelector('.cart-block').addEventListener('click', (evt) => {
-                if (evt.target.classList.contains('del-btn')) {
-                    this.removeProduct(evt.target);
-                }
-            })
-        }
-        //удалить товар из корзины
+        document.querySelector('.btn-cart').addEventListener('click', () => {
+            document.querySelector('.cart-block').classList.toggle('invisible')
+        });
+        //используем делегирование при обработки события клик по кнопке "удалить товар"
+        //вешать обработчик на каждую кнопку "удалить товар" нерационально
+        document.querySelector('.cart-block').addEventListener('click', (evt) => {
+            if (evt.target.classList.contains('del-btn')) {
+                this.removeProduct(evt.target);
+            }
+        })
+    }
     removeProduct(product) {
         let productId = +product.dataset['id'];
         let find = this.cartItems.find(element => element.product.id === productId);
@@ -155,8 +136,6 @@ class Cart {
         }
         this._render();
     }
-
-    //добавить товар в корзину
     addProduct(product) {
         let find = this.cartItems.find(element => element.product.id === product.id);
         if (find) {
@@ -181,65 +160,3 @@ class Cart {
 }
 
 let cart = new Cart;
-
-// функция makeGETRequest - на основе Promise (...)
-// function makeGETRequest(url) {
-//  return new Promise(function (resolve,reject) {
-//         let xhr = new XMLHttpRequest()
-//         xhr.open('GET', url, true)
-//         xhr.onload = () => resolve(xhr.responseText);
-//         xhr.onerror = () => reject(new Error(`Ошибка загрузки скрипта ${url}`));
-//         xhr.open('GET', url, true);
-//         xhr.open('GET', url, true);
-//     }
-// )};
-
-//function makeGETRequest (url) {
-// return fetch (url)
-//.then(result => result.json())
-//.catch (err => {console.log (err)})
-//}
-
-//* функция makeGETRequest - на основе callback функции*/
-//fetchProducts(cb) {
-//makeGETRequest(`${API_URL}/catalogData.json`, (products) => {
-//this.products = JSON.parse(products)
-//cb()
-//})
-//}
-
-//  /* функция makeGETRequest - на основе promise функции*/
-// fetchProducts() {
-//     makeGETRequest(`${API_URL}/catalogData.json`)
-//         .then (data => {
-//             this.products = JSON.parse(data)
-//             this.render()
-//         })
-//         .catch (err => {
-//             console.log ('error')
-//         })
-// }
-
-//     async fetchProducts() {
-// makeGETRequest(`${API_URL}/catalogData.json`)
-//     .then (data => {
-//         this.products = data
-//         this.render()
-//     })
-
-//     try {
-//      this.products = await fetch (`${API_URL}/catalogData.json`)
-//          .then (data => data.json ()) //data ===== xhr.responseText (JSON)
-//
-//             this.render ()
-//  } 
-//  catch (err) {
-//       console.log (err)
-//    }
-//  finally {
-//      console.log ('end of async')
-//  }
-//}
-
-//render() {
-//    this.products.forEach(product => {
