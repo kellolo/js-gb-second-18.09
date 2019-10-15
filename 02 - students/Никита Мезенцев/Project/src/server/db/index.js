@@ -1,5 +1,9 @@
 const handler = require('./handler.js')
 
+const statsFile = require('./stats.json')
+const cartFile = require('./cart.json')
+const catalogFile = require('./catalog.json')
+
 class Model {
     constructor(filename) {
         this.filename = filename
@@ -26,7 +30,7 @@ class Model {
 
 class Logger extends Model {
     constructor() {
-        super('stats.json')
+        super(statsFile)
     }
     log(msg, id, title, q) {
         try {
@@ -46,7 +50,7 @@ class Logger extends Model {
 
 class Cart extends Model {
     constructor() {
-        super('cart.json')
+        super(cartFile)
     }
     getItems() {
         return super.getAll(this.data.items)
@@ -111,7 +115,7 @@ class Cart extends Model {
 
 class Catalog extends Model {
     constructor() {
-        super('catalog.json')
+        super(catalogFile)
     }
 }
 
