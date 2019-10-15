@@ -17,6 +17,9 @@ let app = new Vue ({
         filterCatalog () {
             const reg = new RegExp (this.filter, 'i')
             this.filtered = this.filtered.filter (el => reg.test (el.product_name))
+        },
+        lol () {
+            console.log (this)
         }
     },
     async mounted () {
