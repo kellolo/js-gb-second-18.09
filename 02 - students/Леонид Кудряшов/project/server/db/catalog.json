@@ -1,0 +1,51 @@
+[{
+        "id_product": 123,
+        "product_name": "Ноутбук",
+        "price": 45600
+    },
+    {
+        "id_product": 234,
+        "product_name": "Мышка",
+        "price": 1000
+    },
+    {
+        "id_product": 456,
+        "product_name": "Клавиатура",
+        "price": 1500
+    },
+    {
+        "id_product": 567,
+        "product_name": "Микрофон",
+        "price": 2000
+    },
+    {
+        "id_product": 678,
+        "product_name": "Дисплей",
+        "price": 15800
+    },
+    {
+        "id_product": 789,
+        "product_name": "Принтер",
+        "price": 10000
+    },
+    {
+        "id_product": 445,
+        "product_name": "Коврик для мышки",
+        "price": 1500
+    },
+    {
+        "id_product": 556,
+        "product_name": "Лампа настольная",
+        "price": 2000
+    },
+    {
+        "id_product": 667,
+        "product_name": "Часы настольные",
+        "price": 15800
+    },
+    {
+        "id_product": 778,
+        "product_name": "МФУ Вятка",
+        "price": 10000
+    }
+]
