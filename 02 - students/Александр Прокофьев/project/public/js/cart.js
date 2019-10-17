@@ -82,14 +82,6 @@ Vue.component('cart',{
                         }
                     })
             }
-
-            // if (find.quantity > 1) {
-            //     //put
-            //     find.quantity--
-            // } else {
-            //     //delete
-            //     this.cart_items.splice(this.cart_items.indexOf(find), 1)
-            // }
             this.calcTotal()
         },
         calcTotal(){

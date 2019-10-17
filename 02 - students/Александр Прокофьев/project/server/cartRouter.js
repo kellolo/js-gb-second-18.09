@@ -29,6 +29,7 @@ router.put ('/:id', (req, res) => {
     handler(req, res, 'change', 'server/db/userCart.json')
 })
 
+//запрос на удаление товара из корзины
 router.delete ('/:id', (req, res) => {
     handler(req, res, 'delete', 'server/db/userCart.json')
 })
