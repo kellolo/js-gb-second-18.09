@@ -23,7 +23,7 @@ Vue.component('catalog', {
         return {
             filtered: [],
             products: [],
-            url: '/catalogData.json',
+            url: '/api/products',
             err: 'Каталог товаров: запрос на сервер вернул ошибку.'
         }
     },
@@ -34,18 +34,9 @@ Vue.component('catalog', {
         }
     },
     async mounted(){
-        let result = null
-        try {
-            result = await this.$parent.getData(this.url)
-                .then(data => data.json())
-        } catch (error) {
-            result = []
-            // this.err = error
-            this.$parent.$refs.err_notifier.flashErrMsg(this.err)
-        } finally {
-            this.products = result
-            this.filtered = result            
-        }
+        let res = await this.$parent.getJson(this.url)
+        this.products = res
+        this.filtered = res
     },
     template: 
                 `<div class="products">
