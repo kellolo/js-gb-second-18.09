@@ -34,28 +34,53 @@ Vue.component('cart',{
             cart_items: [],
             total_price: 0,
             cart_empty_msg: 'Нет данных',
-            url: '/getBasket.json',
+            url: '/api/cart',
             err: 'Корзина товаров: запрос на сервер вернул ошибку.'
         }
     },
     methods:{
         addProduct(item){
-            let find = this.cart_items.find(element => element.id_product === item.id_product)
+            let find = this.cart_items.find(el => el.id_product === item.id_product)
             if (find) {
-                find.quantity++
+                //put
+                this.$parent.putJson(`${this.url}/${find.id_product}`, {quantity: 1})
+                    .then(data => {
+                        if (data.result){
+                            find.quantity++
+                        }
+                    })
             }
             else {
-                let prod = Object.assign({quantity:  1}, item)
-                this.cart_items.push(prod)
+                //post
+                let prod = Object.assign({quantity:  1}, item)                
+                this.$parent.postJson(`${this.url}`, prod)
+                    .then(data => {
+                        if (data.result){
+                            this.cart_items.push(prod)
+                        }
+                    })
             }
             this.calcTotal()
         },
         removeProduct(productId){
-            let find = this.cart_items.find(element => element.id_product === productId)
+            let find = this.cart_items.find(elem => elem.id_product === productId)
             if (find.quantity > 1) {
-                find.quantity--
-            } else {
-                this.cart_items.splice(this.cart_items.indexOf(find), 1)
+                //put
+                this.$parent.putJson(`${this.url}/${productId}`, {quantity: -1})
+                    .then(data => {
+                        if (data.result){
+                            find.quantity--
+                        }
+                    })
+            }
+            else {
+                //delete                
+                this.$parent.deleteJson(`${this.url}/${productId}`)
+                    .then(data => {
+                        if (data.result){
+                            this.cart_items.splice(this.cart_items.indexOf(find), 1)
+                        }
+                    })
             }
             this.calcTotal()
         },
@@ -69,20 +94,11 @@ Vue.component('cart',{
         
     },
     async mounted(){
-        try {
-            this.cart_items = await this.$parent.getData(this.url)
-                .then(data => data.json())
-                .then(res => {
-                    this.amount = res.amount
-                    this.count_goods = res.countGoods
-                    return [...res.contents]
-                })
-        } catch (error) {
-            // this.err = error
-            this.$parent.$refs.err_notifier.flashErrMsg(this.err)
-        } finally {
-            this.calcTotal()
-        }
+        let res = await this.$parent.getJson(this.url)
+        this.amount = res.amount
+        this.count_goods = res.countGoods
+        this.cart_items = [...res.contents]
+        this.calcTotal()
     },
     template:   `<div class="cart-block" v-show="toggle">
                     <div class='total-price'><p>Total price: {{total_price}} $</p><hr></div>
