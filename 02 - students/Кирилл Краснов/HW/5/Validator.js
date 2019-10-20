@@ -6,14 +6,12 @@ class Validator {
             phone: /^\+7\(\d{3}\)\d{3}-\d{4}$/,
             email: /^[\w._-]+@\w+\.[a-z]{2,4}$/
         }
-
         this.errors = {
-            name: 'Имя содержит только буквы',
+            name: 'Имя должно содержать только буквы',
             secondname: 'Фамилия содержит только буквы',
-            phone: 'Шаблон телефона +7(000)000-0000',
-            email: 'Шаблон e-mail mymail@mail.ru, my.mail@mail.ru, my-mail@mail.ru'
+            phone: 'Шаблон телефона: +7(000)000-0000',
+            email: 'Шаблон email: mymail@mail.ru, my.mail@mail.ru, my-mail@mail.ru'
         }
-
         this.errorClass = 'error-msg'
         this.form = form
         this.valid = false
@@ -25,25 +23,21 @@ class Validator {
         for (let error of errors) {
             error.remove()
         }
-
         let formFields = [...document.getElementById(this.form).querySelectorAll('input')]
-        formFields.forEach(el => { this._validateField(el) });
-
+        formFields.forEach(element => { this._validateField(element) });
         if (![...document.getElementById(this.form).querySelectorAll('.invalid')].length) {
             this.valid = true
         }
     }
-
     _validateField(field) {
         if (this.patterns[field.name]) {
-            if (!this.patterns[field.name].test(field.value)) { // regExp.test (string) // true - если совпадение / false - если "не думаю"
+            if (!this.patterns[field.name].test(field.value)) {
                 field.classList.add('invalid')
                 this._addErrorMsg(field)
                 this._watchField(field)
             }
         }
     }
-
     _addErrorMsg(field) {
         let err = `<div class="${this.errorClass}">${this.errors[field.name]}</div>`
         field.parentNode.insertAdjacentHTML('beforeend', err)
@@ -66,7 +60,5 @@ class Validator {
         })
     }
 }
-
-//replace '
 
 let regexp = /\g'|'\g/g
