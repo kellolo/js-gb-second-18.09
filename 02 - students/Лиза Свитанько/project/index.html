@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>eShop</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div id="app">
+    <header>
+        <goods-search></goods-search>
+    </header>
+    <main>
+        <catalog ref="cata" :goods="filteredGoods"></catalog>
+        <br>
+        <cart ref="cart"></cart>
+    </main>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+<script src="js/catalog.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
