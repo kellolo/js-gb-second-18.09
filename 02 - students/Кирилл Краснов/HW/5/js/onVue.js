@@ -1,24 +1,21 @@
-iamge = 'https://placehold.it/200x150'
-cartImage = 'https://placehold.it/100x80'
-API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses'
-
+cartImage = 'https://placehold.it/100x80';
 
 const app = new Vue({
     el: '#app',
+    
     data: {
         products: [],
         imgCatalog: 'https://placehold.it/200x150',
+        catalogUrl: '/catalogData.json',
+        API_URL:'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses',
         err: '',
         filter: '',
-        catalogUrl: '/catalogData.json',
     },
-    // computed: {
 
-    // },
     methods: {
         async getData() {
             try {
-                this.products = await fetch(`${API_URL}/catalogData.json`)
+                this.products = await fetch(`${this.API_URL+this.catalogUrl}`)
                     .then(data => data.json())
                 this.filteredProducts = this.ProductsList
             }
@@ -28,9 +25,10 @@ const app = new Vue({
         },
         addProduct(item) {
             console.log(item.id_product)
-        },
-        mounted() {
-            this.getData()
         }
     },
+
+    mounted() {
+        this.getData()
+    }
 })
