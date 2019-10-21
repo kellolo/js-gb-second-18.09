@@ -1,45 +1,36 @@
- let app = new Vue({
-                el: '#app',
-                data: {
-                    name: 'Jon Due',
-                    text: '',
-                    email: 'jon.due@mail.ru',
-                    vueStyle: { color: "red" },
-                    trigger: false,
-                    //данные созданные внутри компоненита
-                    arrJSON: [
-                        {
-                            "name": "Notebook",
-                            "id": 1,
-                            "price": 1000,
-                            "image": "https://placehold.it/200x150"
-                        },
-                        {
-                            "name": "Display",
-                            "id": 2,
-                            "price": 200,
-                            "image": "https://placehold.it/200x150"
-                        },
-                    ],
-                    arr: null
-                },
-                computed: {
-                    //типа функции
-                    calcClass() {
-                        return this.trigger ? 'font-it' : ''
-                    }
-                },
-                methods: {
-                    //методы
-                    methodChangeTrigger(trigger) {
-                        this.trigger = !this.trigger
-                    }
-                },
-                //ХУКИ-события на которые завязан цикл жизни компонента
-                async mounted() {
-                    // this.arr=JSON.parse(this.arrJSON)
-                    // console.log(this.arr)
-                    this.arr=await fetch('json/products.json')
-                        .then (data=>data.json())
-                }
-            })
+iamge = 'https://placehold.it/200x150'
+cartImage = 'https://placehold.it/100x80'
+API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses'
+
+
+const app = new Vue({
+    el: '#app',
+    data: {
+        products: [],
+        imgCatalog: 'https://placehold.it/200x150',
+        err: '',
+        filter: '',
+        catalogUrl: '/catalogData.json',
+    },
+    // computed: {
+
+    // },
+    methods: {
+        async getData() {
+            try {
+                this.products = await fetch(`${API_URL}/catalogData.json`)
+                    .then(data => data.json())
+                this.filteredProducts = this.ProductsList
+            }
+            catch (error) {
+                this.err = error
+            }
+        },
+        addProduct(item) {
+            console.log(item.id_product)
+        },
+        mounted() {
+            this.getData()
+        }
+    },
+})
