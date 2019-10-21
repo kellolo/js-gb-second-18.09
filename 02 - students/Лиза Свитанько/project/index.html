@@ -8,45 +8,18 @@
 <body>
 <div id="app">
     <header>
-        <div id="search">
-            <input type="text" class="goods-search"/>
-            <button class="search-button" type="button" @click="searchClickHandler">Искать</button>
-        </div>
+        <goods-search></goods-search>
     </header>
     <main>
-        <template>
-            <div class="goods-list">
-                <p v-if="filteredGoods.length === 0">Нет данных</p>
-                <div class="goods-item" v-for="good in filteredGoods">
-                    <div class="goods-img"><img src=""></div>
-                    <h3>{{ good.product_name }}</h3>
-                    <p>{{ good.price }}</p>
-                    <button class="item-btn">Добавить</button>
-
-                </div>
-            </div>
-        </template>
+        <catalog ref="cata" :goods="filteredGoods"></catalog>
         <br>
-
-        <!--Логичнее сделать значение равным true после одного нажатия, чтобы корзина показывалась и больше не убиралась-->
-        <button class="cart-button" type="button" @click="isVisibleCart = true">Корзина</button>
-        <div v-show="isVisibleCart">
-            <div class="goods-list">
-                <p v-if="cartGoods.length === 0">В корзине ничего нет</p>
-                <div class="goods-item" v-for="good in cartGoods">
-                    <div class="goods-img"><img src=""></div>
-                    <h3>{{ good.product_name }}</h3>
-                    <p>{{ good.price }}</p>
-                    <button class="item-btn">Удалить</button>
-                </div>
-            </div>
-        </div>
-
+        <cart ref="cart"></cart>
     </main>
 
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
-<script src="js/script.js"></script>
+<script src="js/catalog.js"></script>
+<script src="js/main.js"></script>
 
 </body>
 </html>

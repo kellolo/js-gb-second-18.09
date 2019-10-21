@@ -1,0 +1,92 @@
+body{
+    font-family: Constantia, "Lucida Bright", "DejaVu Serif", Georgia, "serif"; 	
+}
+.cart{
+   display: block;
+    width: 100%;
+    height: 50px;
+	border: 1px solid black;
+	border-radius: 10px;
+}
+.cart-button{
+    display: block;
+    float: right; 
+    width: 100px;
+    margin: 10px;
+    font-size: 20px;
+    border-radius: 5px;
+    border: 1px solid black;
+    box-shadow: 0 0 10px darkgrey;
+    
+}
+.cart-button:hover{
+	cursor: pointer;
+}
+.cart-button:active{
+	box-shadow: none;
+}
+.cart-block{
+	width: 150px;
+	height: 200px;
+	background-color: lightgrey;
+	border: 1px solid lightgrey;
+	position: absolute;
+	right: 10px;
+    top: 60px;
+    padding: 10px;
+	border-radius: 5px;
+}
+.invisible{
+	display: none;
+}
+.cart-block:before{
+    content: '';
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: -10px;
+    right: 35px;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid lightgrey;
+}
+.goods-list{
+ display: flex;
+    justify-content: space-between;
+
+  width: auto;  
+}
+.goods-item{
+   
+    text-align: center;
+    border: 1px solid black;
+    margin: 10px;
+    width: 100px;
+    height: auto;
+    padding: 10px;
+   
+    
+}
+.goods-item img{
+    width: 50px;
+   
+    
+}
+
+.goods-item p{
+    
+    
+}
+.goods-item .item-button{
+    font-size: 12px;
+    border-radius: 5px;
+    border: 1px solid darkgrey;
+    box-shadow: 0 0 10px darkgrey;
+}
+
+.goods-item .item-button:hover{
+	cursor: pointer;
+}
+.goods-item .item-button:active{
+	box-shadow: none;
+}
