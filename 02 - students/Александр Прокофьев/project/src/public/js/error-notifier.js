@@ -1,4 +1,4 @@
-Vue.component('err-notifier',{
+let error = {
     data(){
         return{
             err: ''
@@ -10,4 +10,6 @@ Vue.component('err-notifier',{
         }
     },
     template:   `<div class=err-note v-if="err.length != 0"><h4>{{err}}</h4></div>`
-})
+}
+
+export default error

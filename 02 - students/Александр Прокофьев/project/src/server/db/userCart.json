@@ -6,7 +6,7 @@
             "id_product": 123,
             "product_name": "Ноутбук",
             "price": 45600,
-            "quantity": 86
+            "quantity": 87
         },
         {
             "id_product": 234,
@@ -19,6 +19,12 @@
             "id_product": 678,
             "product_name": "Дисплей",
             "price": 15800
+        },
+        {
+            "quantity": 1,
+            "id_product": 789,
+            "product_name": "Принтер",
+            "price": 10000
         }
     ]
 }
