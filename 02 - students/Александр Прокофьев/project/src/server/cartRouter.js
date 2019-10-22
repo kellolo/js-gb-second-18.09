@@ -9,7 +9,7 @@ const router = express.Router()
 
 //первый аргумент '/' == '/api/cart' своеобразная подстановка. См. стр. 8 => server.js
 router.get ('/', (req, res) => {
-    fs.readFile ('server/db/userCart.json', 'utf-8', (err, data) => {
+    fs.readFile ('dist/server/db/userCart.json', 'utf-8', (err, data) => {
         if (err) {
             res.sendStatus (404, JSON.stringify ({ result: 0, text: 'err' }))
         } else {
@@ -21,17 +21,17 @@ router.get ('/', (req, res) => {
 //добавление товара в корзину
 router.post ('/', (req, res) => {
     //handler - менеджер по работе с файлами
-    handler(req, res, 'add', 'server/db/userCart.json')
+    handler(req, res, 'add', 'dist/server/db/userCart.json')
 })
 
 //запрос на изменение сушествующего в корзине товара
 router.put ('/:id', (req, res) => {
-    handler(req, res, 'change', 'server/db/userCart.json')
+    handler(req, res, 'change', 'dist/server/db/userCart.json')
 })
 
 //запрос на удаление товара из корзины
 router.delete ('/:id', (req, res) => {
-    handler(req, res, 'delete', 'server/db/userCart.json')
+    handler(req, res, 'delete', 'dist/server/db/userCart.json')
 })
 
 module.exports = router

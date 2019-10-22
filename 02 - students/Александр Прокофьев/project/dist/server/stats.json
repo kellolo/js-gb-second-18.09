@@ -1,0 +1,57 @@
+[
+    {
+        "time": "20 Oct 2019, 9:45:39 pm",
+        "product": "Принтер",
+        "action": "add"
+    },
+    {
+        "time": "20 Oct 2019, 9:45:43 pm",
+        "product": "Ноутбук",
+        "action": "change"
+    },
+    {
+        "time": "20 Oct 2019, 9:45:46 pm",
+        "product": "Дисплей",
+        "action": "change"
+    },
+    {
+        "time": "22 Oct 2019, 11:32:24 pm",
+        "product": "Принтер",
+        "action": "delete"
+    },
+    {
+        "time": "22 Oct 2019, 11:32:25 pm",
+        "product": "Дисплей",
+        "action": "change"
+    },
+    {
+        "time": "22 Oct 2019, 11:32:25 pm",
+        "product": "Дисплей",
+        "action": "delete"
+    },
+    {
+        "time": "22 Oct 2019, 11:32:31 pm",
+        "product": "Ноутбук",
+        "action": "change"
+    },
+    {
+        "time": "22 Oct 2019, 11:33:15 pm",
+        "product": "Дисплей",
+        "action": "add"
+    },
+    {
+        "time": "22 Oct 2019, 11:33:17 pm",
+        "product": "Принтер",
+        "action": "add"
+    },
+    {
+        "time": "22 Oct 2019, 11:33:18 pm",
+        "product": "Мышка",
+        "action": "change"
+    },
+    {
+        "time": "22 Oct 2019, 11:33:18 pm",
+        "product": "Клавиатура",
+        "action": "add"
+    }
+]

@@ -2,7 +2,7 @@ const moment = require('moment')
 const fs = require('fs')
 
 const logger = (name, action) => {
-    const file = 'server/stats.json'
+    const file = 'dist/server/stats.json'
     fs.readFile (file, 'utf-8', (err, data) => {
         if (err) {
             console.log('logger breakdown :(')
