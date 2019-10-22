@@ -1,4 +1,9 @@
-let app = new Vue ({
+import cart from './cart'
+import catalog from './catalog'
+import search from './filter'
+import error from './error-notifier'
+
+let app = {
     el: '#app',
     data:{
         cart_toggle: false //признак, переключатель видимости корзины
@@ -60,10 +65,9 @@ let app = new Vue ({
                 })
         }
     },
-    computed:{
-
-    },
-    mounted(){
-        // console.dir(this)
+    components: {
+        cart, catalog, search, error
     }
-})
+}
+
+export default app

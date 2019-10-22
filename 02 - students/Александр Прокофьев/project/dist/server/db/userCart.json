@@ -6,19 +6,31 @@
             "id_product": 123,
             "product_name": "Ноутбук",
             "price": 45600,
-            "quantity": 86
+            "quantity": 88
         },
         {
             "id_product": 234,
             "product_name": "Мышка",
             "price": 1000,
-            "quantity": 92
+            "quantity": 93
         },
         {
-            "quantity": 2,
+            "quantity": 1,
             "id_product": 678,
             "product_name": "Дисплей",
             "price": 15800
+        },
+        {
+            "quantity": 1,
+            "id_product": 789,
+            "product_name": "Принтер",
+            "price": 10000
+        },
+        {
+            "quantity": 1,
+            "id_product": 456,
+            "product_name": "Клавиатура",
+            "price": 1500
         }
     ]
 }

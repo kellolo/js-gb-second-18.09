@@ -1,11 +1,8 @@
-Vue.component('search',{
+let search = {
     data(){
         return {
             filter: ''
         }
-    },
-    mounted(){
-        // console.dir(this)
     },
     template: `
                 <form action="#" class="search-form" @submit.prevent="$root.$refs.cata.filterCatalog(filter)">
@@ -14,4 +11,6 @@ Vue.component('search',{
                         <i class="fas fa-search"></i>
                     </button>
                 </form>`
-})
+}
+
+export default search

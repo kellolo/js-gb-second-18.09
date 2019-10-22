@@ -1,4 +1,4 @@
-Vue.component('product-item',{
+let productItem = {
     props:[
         'product'
     ],
@@ -16,9 +16,9 @@ Vue.component('product-item',{
                         <button class="buy-btn" @click="$root.$refs.cart.addProduct(product)">Купить</button>
                     </div>
                 </div>`
-})
+}
 
-Vue.component('catalog', {
+let catalog = {
     data(){
         return {
             filtered: [],
@@ -42,5 +42,10 @@ Vue.component('catalog', {
                 `<div class="products">
                     <product-item v-for="product of filtered" :key="product.id_product" :product="product">
                     </product-item>
-                </div>`
-})
+                </div>`,
+    components: {
+        'product-item': productItem
+    }
+}
+
+export default catalog

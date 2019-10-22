@@ -1,6 +1,7 @@
 //модуль помощник для работы с файлами
 const cart = require('./cart')
 const fs = require('fs')
+const logger = require('./logger')
 
 const actions = {
     add: cart.add,
@@ -15,12 +16,13 @@ let handler = (req, res, action, file) => {
             console.log('paravozik ne smog')
         } else {
             //JSON.parse и JSON.stringify выполняют десериализацию и сериализацию объекта js
-            let newCart = actions [action] (JSON.parse(data), req)
+            let {newCart, name} = actions [action] (JSON.parse(data), req)
             fs.writeFile(file, newCart, (err) => {
                 if (err) {
                     res.sendStatus(404, JSON.stringify({result: 0, text: 'err'}))
                 } else {
                     res.send ({result: 1, text: 'success'})
+                    logger (name, action)
                 }
             })
         }

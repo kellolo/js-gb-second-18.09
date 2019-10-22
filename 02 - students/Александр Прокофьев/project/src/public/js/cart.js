@@ -1,4 +1,4 @@
-Vue.component('cart-item',{
+let cartItem = {
     props:[
         'item'
     ],
@@ -21,9 +21,9 @@ Vue.component('cart-item',{
                         <button class="del-btn" @click="$parent.removeProduct(item.id_product)">&times;</button>
                     </div>
                 </div>`
-})
+}
 
-Vue.component('cart',{
+let cart = {
     props:[
         'toggle'
     ],
@@ -104,5 +104,10 @@ Vue.component('cart',{
                     <div class='total-price'><p>Total price: {{total_price}} $</p><hr></div>
                     <cart-item v-for="item in cart_items" :key="item.id_product" :item="item"></cart-item>
                     <div class="cart-item" v-if="cart_items.length == 0">{{cart_empty_msg}}</div>
-                </div>`
-})
+                </div>`,
+    components: {
+        'cart-item': cartItem
+    }
+}
+
+export default cart
