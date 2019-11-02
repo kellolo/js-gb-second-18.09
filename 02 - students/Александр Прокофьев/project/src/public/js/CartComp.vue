@@ -1,33 +1,18 @@
-let cartItem = {
-    props:[
-        'item'
-    ],
-    data(){
-        return {
-            img_cart: 'https://placehold.it/100x80'
-        }
-    },
-    template:   `<div class="cart-item">
-                    <div class="product-bio">
-                        <img :src="img_cart" alt="Some image">
-                        <div class="product-desc">
-                            <p class="product-title">{{item.product_name}}</p>
-                            <p class="product-quantity">Quantity: {{item.quantity}}</p>
-                            <p class="product-single-price">$ {{item.price}} each</p>
-                        </div>
-                    </div>
-                    <div class="right-block">
-                        <p class="product-price">{{item.quantity * item.price}}</p>
-                        <button class="del-btn" @click="$parent.removeProduct(item.id_product)">&times;</button>
-                    </div>
-                </div>`
-}
+<template>
+    <div class="cart-block" v-show="toggle">
+        <div class='total-price'><p>Total price: {{total_price}} $</p><hr></div>
+        <cart-item v-for="item in cart_items" :key="item.id_product" :item="item"></cart-item>
+        <div class="cart-item" v-if="cart_items.length == 0">{{cart_empty_msg}}</div>
+    </div>
+</template>
 
-let cart = {
+<script>
+import cartItem from './CartItem.vue'
+export default {
     props:[
         'toggle'
     ],
-    data(){
+    data: function(){
         return {
             amount: null,
             count_goods: null,
@@ -90,9 +75,6 @@ let cart = {
             this.total_price = sum
         }
     },
-    computed:{
-        
-    },
     async mounted(){
         let res = await this.$parent.getJson(this.url)
         this.amount = res.amount
@@ -100,14 +82,12 @@ let cart = {
         this.cart_items = [...res.contents]
         this.calcTotal()
     },
-    template:   `<div class="cart-block" v-show="toggle">
-                    <div class='total-price'><p>Total price: {{total_price}} $</p><hr></div>
-                    <cart-item v-for="item in cart_items" :key="item.id_product" :item="item"></cart-item>
-                    <div class="cart-item" v-if="cart_items.length == 0">{{cart_empty_msg}}</div>
-                </div>`,
     components: {
         'cart-item': cartItem
     }
 }
+</script>
 
-export default cart
+<style>
+
+</style>

@@ -6,18 +6,6 @@
 <link href="css/main.css" rel="stylesheet"></head>
 <body>
     <div id="app">
-        <header>
-            <div class="logo">E-shop</div>
-            <div class="cart">
-                <search ref="search"></search>
-                <button class="btn-cart" type="button" @click="cart_toggle = !cart_toggle">Корзина</button>
-                <cart ref="cart" :toggle="cart_toggle"></cart>
-            </div>
-        </header>
-        <main>
-            <catalog ref="cata"></catalog>            
-        </main>
-        <error ref="err_notifier"></error>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
