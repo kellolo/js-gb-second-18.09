@@ -1,12 +1,38 @@
-import cart from './cart'
-import catalog from './catalog'
-import search from './filter'
-import error from './error-notifier'
+<template>
+    <div>
+        <header>
+            <div class="logo">E-shop</div>
+            <div class="cart">
+                <filter-tag ref="filter"></filter-tag>
+                <button class="btn-cart" type="button" @click="cart_toggle = !cart_toggle">Корзина</button>
+                <cart ref="cart" :toggle="cart_toggle"></cart>
+            </div>
+        </header>
+        <main>
+            <catalog ref="cata"></catalog>            
+        </main>
+        <error ref="err_notifier"></error>
+    </div>  
+</template>
 
-let app = {
-    el: '#app',
-    data:{
-        cart_toggle: false //признак, переключатель видимости корзины
+<script>
+import cart from './CartComp.vue'
+import catalog from './CatalogComp.vue'
+import filterComp from './FilterComp.vue'
+import error from './ErrorComp.vue'
+
+
+export default {
+    data: function(){
+        return {
+            cart_toggle: false //признак, переключатель видимости корзины
+        }
+    },
+    components:{
+        cart, 
+        catalog,
+        error,
+        'filter-tag': filterComp
     },
     methods:{
         async getJson(url){
@@ -64,10 +90,10 @@ let app = {
                     console.log(err)
                 })
         }
-    },
-    components: {
-        cart, catalog, search, error
     }
 }
+</script>
 
-export default app
+<style>
+
+</style>
