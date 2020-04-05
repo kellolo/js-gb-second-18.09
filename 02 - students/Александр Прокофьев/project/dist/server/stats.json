@@ -1,0 +1,27 @@
+[
+    {
+        "time": "20 Oct 2019, 9:45:39 pm",
+        "product": "Принтер",
+        "action": "add"
+    },
+    {
+        "time": "20 Oct 2019, 9:45:43 pm",
+        "product": "Ноутбук",
+        "action": "change"
+    },
+    {
+        "time": "20 Oct 2019, 9:45:46 pm",
+        "product": "Дисплей",
+        "action": "change"
+    },
+    {
+        "time": "02 Nov 2019, 4:18:11 pm",
+        "product": "Принтер",
+        "action": "delete"
+    },
+    {
+        "time": "02 Nov 2019, 4:18:17 pm",
+        "product": "Принтер",
+        "action": "add"
+    }
+]
