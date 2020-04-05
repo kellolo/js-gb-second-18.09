@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .container {
+            display: flex;
+            /* flex-direction: column; */
+            max-width: 1920px ;
+            min-width: 375px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .post {
+            width: 280px;
+            padding: 15px;
+            box-sizing: border-box;
+            margin: 15px;
+            border-radius: 5px;
+            border: 2px solid gray;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .post-footer {
+            text-align: right;
+        }
+
+        .font-it {
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>POWERED BY VUE</h1>
+    <div id="app">
+        <div class="container">
+            <div class="post" v-for="post of arr" :key="post.id">
+                <div class="user">
+                    <h4 :style="vueStyle">{{post.name}}</h4>
+                </div>
+                <div class="post-body">
+                    <p>
+                        {{post.price}} руб.
+                    </p>
+                </div>
+                <img :src="post.image" alt="" width="200" height="150">
+                <button @click="clickHandler">В козину</button>
+                <!-- <div class="post-footer">
+                    <a href="#">{{email}}</a>
+                </div> -->
+            </div>
+            <!-- <button @click="methodChangeTrigger">Trigger change</button>
+            <input type="text" v-model.Lazy="text"> -->
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="js/onVue.js"></script>
+        <!-- <script>
+            let app = new Vue({
+                el: '#app',
+                data: {
+                    name: 'Jon Due',
+                    text: '',
+                    email: 'jon.due@mail.ru',
+                    vueStyle: { color: "red" },
+                    trigger: false,
+                    //данные созданные внутри компоненита
+                    arrJSON: [
+                        {
+                            "name": "Notebook",
+                            "id": 1,
+                            "price": 1000,
+                            "image": "https://placehold.it/200x150"
+                        },
+                        {
+                            "name": "Display",
+                            "id": 2,
+                            "price": 200,
+                            "image": "https://placehold.it/200x150"
+                        },
+                    ],
+                    arr: null
+                },
+                computed: {
+                    //типа функции
+                    calcClass() {
+                        return this.trigger ? 'font-it' : ''
+                    }
+                },
+                methods: {
+                    //методы
+                    methodChangeTrigger(trigger) {
+                        this.trigger = !this.trigger
+                    }
+                },
+                //ХУКИ-события на которые завязан цикл жизни компонента
+                async mounted() {
+                    this.arr=await fetch('json/products.json')
+                        .then (data=>data.json())
+                }
+            })
+        </script> -->
+    </div>
+</body>
+
+</html>
